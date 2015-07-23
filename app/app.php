@@ -6,6 +6,9 @@ use Tuum\Slimmed\TuumStack;
  */
 
 $app = new Slim\App();
+$app->getContainer()['callableResolver'] = function($c) {
+    return new \Tuum\Slimmed\CallableResolver($c);
+};
 
 /**
  * Tuum/Respond extension

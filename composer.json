@@ -1,0 +1,21 @@
+{
+    "name": "asaokamei/slim-tuum",
+    "description": "Slim3 framework extended with Tuum/Respond.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Asao",
+            "email": "kamei@workspot.jp"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "slim/slim": "3.x-dev",
+        "tuum/respond": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Tuum\\Slimmed\\": "src/"
+        }
+    }
+}

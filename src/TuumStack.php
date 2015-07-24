@@ -25,11 +25,12 @@ class TuumStack
 
     /**
      * @param string     $viewDir
+     * @param string     $content_file
      * @param array      $error_options
      * @param null|array $cookie
      * @return static
      */
-    public static function forge($viewDir, $error_options, $cookie = null)
+    public static function forge($viewDir, $content_file, $error_options = [], $cookie = null)
     {
         // check options.
         $cookie  = is_null($cookie) ?: $_COOKIE;
@@ -42,7 +43,7 @@ class TuumStack
         $session = SessionStorage::forge('slim-tuum', $cookie);
         $stream  = ViewStream::forge($viewDir);
         $errors  = ErrorView::forge($stream, $error_options);
-        $respond = Responder::build($stream, $errors)->withSession($session);
+        $respond = Responder::build($stream, $errors, $content_file)->withSession($session);
         $self    = new static($respond);
         return $self;
     }

@@ -2,7 +2,7 @@
 /** @var DataView $view */
 use Tuum\Form\DataView;
 
-$this->setLayout('layout');
+$this->setLayout('layout/layout');
 ?>
 <h1>Slim and Tuum/Respond</h1>
 

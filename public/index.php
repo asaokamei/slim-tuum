@@ -14,7 +14,7 @@ use Tuum\Respond\Respond;
 use Tuum\Respond\Responder;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
-require dirname(__DIR__) . '/app/SampleCtrl.php';
+require dirname(__DIR__) . '/app/UploadController.php';
 
 /** @var App $app */
 $app = require dirname(__DIR__) . '/app/app.php';

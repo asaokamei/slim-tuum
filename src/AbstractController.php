@@ -15,7 +15,7 @@ abstract class AbstractController
      * @param array                  $args
      * @return null|ResponseInterface
      */
-    public function invokeController(ServerRequestInterface $request, ResponseInterface $response, array $args)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         return $this->invokeController($request, $response);
     }

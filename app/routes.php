@@ -30,7 +30,7 @@ $app->post('/jumper', function (Request $request, Response $response) {
         ->withMessage('redirected back!')
         ->withInputData(['jumped' => 'redirected text'])
         ->withInputErrors(['jumped' => 'redirected error message'])
-        ->toPath('jump');
+        ->toPath('/jump');
 });
 
 /**

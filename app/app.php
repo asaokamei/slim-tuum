@@ -16,7 +16,7 @@ $app->getContainer()['callableResolver'] = function($c) {
 $app->add(
     TuumStack::forge(
         dirname(__DIR__) . '/app/views',
-        'layout/contents',
+        'layouts/contents',
         [
             'default' => 'errors/error',
             'status'  => [],

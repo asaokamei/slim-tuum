@@ -6,7 +6,9 @@ use Psr\Http\Message\ServerRequestInterface;
 use Tuum\Respond\Responder;
 use Tuum\Respond\Service\ErrorView;
 use Tuum\Respond\Service\SessionStorage;
+use Tuum\Respond\Service\TwigStream;
 use Tuum\Respond\Service\ViewStream;
+use Tuum\Respond\Service\ViewStreamInterface;
 
 class TuumStack
 {
@@ -30,24 +32,51 @@ class TuumStack
      * @param null|array $cookie
      * @return static
      */
-    public static function forge($viewDir, $content_file, $error_options = [], $cookie = null)
+    public static function forge($viewDir, $content_file = null, $error_options = [], $cookie = null)
+    {
+        $stream  = ViewStream::forge($viewDir);
+        return self::build($stream, $content_file, $error_options, $cookie);
+    }
+
+    /**
+     * @param string     $twigRoot
+     * @param array      $twigOptions
+     * @param string     $content_file
+     * @param array      $error_options
+     * @param null|array $cookie
+     * @return static
+     */
+    public static function forgeTwig($twigRoot, array $twigOptions, $content_file = null, $error_options = [], $cookie = null)
+    {
+        $stream  = TwigStream::forge($twigRoot, $twigOptions);
+        return self::build($stream, $content_file, $error_options, $cookie);
+    }
+
+    /**
+     * @param ViewStreamInterface $stream
+     * @param string              $content_file
+     * @param array               $errors
+     * @param array|null          $cookie
+     * @return static
+     */
+    private static function build($stream, $content_file, $errors, $cookie)
     {
         // check options.
-        $cookie  = is_null($cookie) ?: $_COOKIE;
-        $error_options += [
+        $cookie = is_null($cookie) ?: $_COOKIE;
+        $errors += [
             'default' => 'errors/error',
             'status'  => [],
             'handler' => false,
         ];
         // construct responders and its dependent objects.
         $session = SessionStorage::forge('slim-tuum', $cookie);
-        $stream  = ViewStream::forge($viewDir);
-        $errors  = ErrorView::forge($stream, $error_options);
+        $errors  = ErrorView::forge($stream, $errors);
         $respond = Responder::build($stream, $errors, $content_file)->withSession($session);
         $self    = new static($respond);
-        return $self;
-    }
 
+        return $self;
+
+    }
     /**
      * @param ServerRequestInterface $request
      * @param ResponseInterface      $response

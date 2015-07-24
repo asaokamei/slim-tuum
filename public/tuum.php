@@ -17,8 +17,7 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 require dirname(__DIR__) . '/app/UploadController.php';
 
 /** @var App $app */
-$view = 'twig';
-$app  = require dirname(__DIR__) . '/app/app-twig.php';
+$app = require dirname(__DIR__) . '/app/app-view.php';
 require dirname(__DIR__) . '/app/routes.php';
 
 /**

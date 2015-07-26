@@ -1,48 +1,33 @@
 <?php
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
-use Slim\Http\Response;
 use Slim\Http\UploadedFile;
-use Tuum\Respond\Respond;
+use Tuum\Respond\Controller\DispatchByMethodTrait;
+use Tuum\Slimmed\AbstractController;
 
 /**
  * Class UploadController
  *
  * a sample controller class for uploading a file. 
  */
-class UploadController
+class UploadController extends AbstractController
 {
+    use DispatchByMethodTrait;
+    
     /**
-     * @param Request  $request
-     * @param Response $response
-     * @param array    $args
-     * @return Response
+     * @return ResponseInterface
      */
-    public function __invoke(Request $request, Response $response, $args)
+    public function onGet()
     {
-        $method = 'on'.ucwords($request->getMethod());
-        return $this->$method($request, $response);
+        return $this->view()->asView('upload');
     }
 
     /**
-     * @param Request  $request
-     * @param Response $response
      * @return ResponseInterface
      */
-    public function onGet(Request $request, Response $response)
+    public function onPost()
     {
-        return Respond::view($request, $response)->asView('upload');
-    }
-
-    /**
-     * @param Request  $request
-     * @param Response $response
-     * @return ResponseInterface
-     */
-    public function onPost(Request $request, Response $response)
-    {
-        $responder = Respond::view($request, $response);
-        $uploaded  = $request->getUploadedFiles();
+        $responder = $this->redirect();
+        $uploaded  = $this->getRequest()->getUploadedFiles();
         $responder
             ->with('isUploaded', true)
             ->with('dump', print_r($uploaded, true));
@@ -60,6 +45,6 @@ class UploadController
             $responder->withMessage('uploaded a file');
         }
         return $responder
-            ->asView('upload');
+            ->toPath('/upload');
     }
 }

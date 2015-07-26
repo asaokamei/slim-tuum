@@ -3,6 +3,7 @@ namespace Tuum\Slimmed;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Tuum\Respond\RequestHelper;
 use Tuum\Respond\Responder;
 use Tuum\Respond\Service\ErrorView;
 use Tuum\Respond\Service\SessionStorage;
@@ -18,11 +19,18 @@ class TuumStack
     private $responder;
 
     /**
-     * @param Responder $responder
+     * @var SessionStorage
      */
-    public function __construct(Responder $responder)
+    private $session;
+
+    /**
+     * @param Responder      $responder
+     * @param SessionStorage $session
+     */
+    public function __construct(Responder $responder, SessionStorage $session)
     {
         $this->responder = $responder;
+        $this->session   = $session;
     }
 
     /**
@@ -62,7 +70,7 @@ class TuumStack
     private static function build($stream, $content_file, $errors, $cookie)
     {
         // check options.
-        $cookie = is_null($cookie) ?: $_COOKIE;
+        $cookie = is_null($cookie) ? $_COOKIE: $cookie;
         $errors += [
             'default' => 'errors/error',
             'status'  => [],
@@ -72,7 +80,7 @@ class TuumStack
         $session = SessionStorage::forge('slim-tuum', $cookie);
         $errors  = ErrorView::forge($stream, $errors);
         $respond = Responder::build($stream, $errors, $content_file)->withSession($session);
-        $self    = new static($respond);
+        $self    = new static($respond, $session);
 
         return $self;
 
@@ -88,7 +96,8 @@ class TuumStack
         ResponseInterface $response,
         callable $next
     ) {
-        $request = $request->withAttribute(Responder::class, $this->responder);
+        $request = RequestHelper::withSessionMgr($request, $this->session);
+        $request = RequestHelper::withResponder($request, $this->responder);
         return $next($request, $response);
     }
 }

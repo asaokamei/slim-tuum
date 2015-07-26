@@ -4,6 +4,8 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use Tuum\Respond\Respond;
 
+require __DIR__ . '/classes/UploadController.php';
+
 /**
  * routes
  * 

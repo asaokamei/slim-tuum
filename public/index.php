@@ -12,7 +12,6 @@ use Tuum\Respond\Responder;
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 /** @var App $app */
-$view = 'twig';
 $app  = require dirname(__DIR__) . '/app/app-twig.php';
 require dirname(__DIR__) . '/app/routes.php';
 

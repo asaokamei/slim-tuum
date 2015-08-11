@@ -97,7 +97,7 @@ class TuumStack
         callable $next
     ) {
         $request = RequestHelper::withSessionMgr($request, $this->session);
-        $request = RequestHelper::withResponder($request, $this->responder);
+        $request = $request->withAttribute(Responder::class, $this->responder);
         return $next($request, $response);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+use Tuum\Slimmed\CsRfGuard;
 use Tuum\Slimmed\TuumStack;
 
 /**
@@ -10,6 +11,8 @@ $app->getContainer()['callableResolver'] = function($c) {
     return new \Tuum\Slimmed\CallableResolver($c);
 };
 
+$app->add(new CsRfGuard());
+
 /**
  * Tuum/Respond extension
  */
@@ -20,7 +23,8 @@ $app->add(
         [
             'default' => 'errors/error',
             'status'  => [
-                '404' => 'errors/notFound'
+                '404' => 'errors/notFound',
+                '403' => 'errors/forbidden',
             ],
             'handler' => false,
         ],

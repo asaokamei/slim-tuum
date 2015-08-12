@@ -18,7 +18,9 @@ class UploadController extends AbstractController
      */
     public function onGet()
     {
-        return $this->view()->asView('upload');
+        return $this->view()
+            ->withReqAttribute('_token')
+            ->asView('upload');
     }
 
     /**

@@ -43,7 +43,7 @@ class CsRfGuard implements ServiceProviderInterface
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
     {
-        $token   = RequestHelper::getResponder($request)->getStorage()->getToken();
+        $token   = RequestHelper::getSessionMgr($request)->getToken();
         $request = $request->withAttribute($this->token_name, $token);
         if (in_array($request->getMethod(), $this->methods)) {
             return $this->validate($request, $response, $next);
@@ -66,9 +66,7 @@ class CsRfGuard implements ServiceProviderInterface
         }
         $value = $post[$this->token_name];
 
-        /** @var Responder $responder */
-        $responder = RequestHelper::getResponder($request);
-        if (!$responder->getStorage()->validateToken($value)) {
+        if (!RequestHelper::getSessionMgr($request)->validateToken($value)) {
             return Respond::error($request, $response)->forbidden();
         }
 

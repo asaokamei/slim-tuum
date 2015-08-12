@@ -5,6 +5,7 @@ use Tuum\Form\DataView;
 use Tuum\View\Renderer;
 
 $this->setLayout('layouts/layout');
+$data  = $view->data;
 $forms = $view->forms->withClass('form-control');
 
 ?>
@@ -18,6 +19,7 @@ $forms = $view->forms->withClass('form-control');
 <?= $view->message; ?>
 
 <?= $forms->open()->action('jumper')->method('post'); ?>
+<?= $data->hiddenTag('_token'); ?>
 
 <?=
 $forms->formGroup(

@@ -86,6 +86,8 @@ class TuumStack
 
     }
     /**
+     * save session and responder as $request's attribute.
+     *
      * @param ServerRequestInterface $request
      * @param ResponseInterface      $response
      * @param callable               $next

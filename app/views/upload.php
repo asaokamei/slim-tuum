@@ -23,6 +23,7 @@ $upload = $view->data->upload ?: null;
 
 <?= /** form open for upload */
 $form->open()->method('post')->uploader(); ?>
+<?= $data->hiddenTag('_token'); ?>
 <?= $form->hidden('MAX_FILE_SIZE', 512); ?>
 
 <?= /** file upload element. */

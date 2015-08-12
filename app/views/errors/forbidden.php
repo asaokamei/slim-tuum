@@ -7,6 +7,7 @@ use Tuum\View\Renderer;
 $this->setLayout('layouts/layout');
 
 ?>
-<h1>It's an Error</h1>
+<h1>Forbidden</h1>
 
-<p>Whoops.</p>
+<p>File or resource you have requested is not accessible. </p>
+<p><a href="/" >start from the beginning!</a></p>

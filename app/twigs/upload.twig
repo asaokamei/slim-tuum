@@ -11,6 +11,7 @@
     <p>please upload any file less than 512 byte. </p>
 
     <form method="post" action="" enctype="multipart/form-data">
+        <input type="hidden" name="_token" value="{{ _token }}">
         <input type="hidden" name="MAX_FILE_SIZE" value="512">
 
         <div class="form-group">

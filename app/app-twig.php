@@ -22,7 +22,9 @@ $app->add(
         'layouts/contents',
         [
             'default' => 'errors/error',
-            'status'  => [],
+            'status'  => [
+                '404' => 'errors/notFound'
+            ],
             'handler' => false,
         ],
         $_COOKIE

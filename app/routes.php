@@ -3,6 +3,7 @@
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Tuum\Respond\Respond;
+use Tuum\Slimmed\DocumentMap;
 
 require __DIR__ . '/classes/UploadController.php';
 
@@ -55,3 +56,10 @@ $app->get('/throw', function() {
  */
 $app->any('/upload', UploadController::class);
 
+/**
+ * FileMap for Document files
+ */
+$app->getContainer()[DocumentMap::class] = function() {
+    return DocumentMap::forge(__DIR__.'/docs', dirname(__DIR__).'/vars/markUp');
+};
+$app->any('/docs/{pathInfo:.*}', DocumentMap::class);

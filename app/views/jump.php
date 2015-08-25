@@ -18,7 +18,7 @@ $forms = $view->forms->withClass('form-control');
 
 <?= $view->message; ?>
 
-<?= $forms->open()->action('jumper')->method('post'); ?>
+<?= $forms->open()->action('')->method('post'); ?>
 <?= $data->hiddenTag('_token'); ?>
 
 <?=

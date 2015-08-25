@@ -29,7 +29,7 @@ $app->get('/jump', function ($request, Response $response) {
         ->asView('jump');
 });
 
-$app->post('/jumper', function (Request $request, Response $response) {
+$app->post('/jump', function (Request $request, Response $response) {
     return Respond::redirect($request, $response)
         ->withMessage('redirected back!')
         ->withInputData(['jumped' => 'redirected text'])

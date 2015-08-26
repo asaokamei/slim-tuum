@@ -31,9 +31,7 @@ $app->add($app->getContainer()['csrf']);
 $app->add(
     TuumStack::forgeTwig(
         __DIR__ . '/twigs',
-        [
-            
-        ],
+        [],
         'layouts/contents',
         [
             'default' => 'errors/error',
@@ -42,8 +40,7 @@ $app->add(
                 '403' => 'errors/forbidden',
             ],
             'handler' => false,
-        ],
-        $_COOKIE
+        ]
         ));
 
 

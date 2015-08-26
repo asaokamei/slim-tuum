@@ -19,31 +19,23 @@ class TuumStack
     private $responder;
 
     /**
-     * @var SessionStorage
+     * @param Responder $responder
      */
-    private $session;
-
-    /**
-     * @param Responder      $responder
-     * @param SessionStorage $session
-     */
-    public function __construct(Responder $responder, SessionStorage $session)
+    public function __construct(Responder $responder)
     {
         $this->responder = $responder;
-        $this->session   = $session;
     }
 
     /**
      * @param string     $viewDir
      * @param string     $content_file
      * @param array      $error_options
-     * @param null|array $cookie
      * @return static
      */
-    public static function forge($viewDir, $content_file = null, $error_options = [], $cookie = null)
+    public static function forge($viewDir, $content_file = null, $error_options = [])
     {
-        $stream  = ViewStream::forge($viewDir);
-        return self::build($stream, $content_file, $error_options, $cookie);
+        $stream = ViewStream::forge($viewDir);
+        return self::build($stream, $content_file, $error_options);
     }
 
     /**
@@ -51,40 +43,40 @@ class TuumStack
      * @param array      $twigOptions
      * @param string     $content_file
      * @param array      $error_options
-     * @param null|array $cookie
      * @return static
      */
-    public static function forgeTwig($twigRoot, array $twigOptions, $content_file = null, $error_options = [], $cookie = null)
-    {
-        $stream  = TwigStream::forge($twigRoot, $twigOptions);
-        return self::build($stream, $content_file, $error_options, $cookie);
+    public static function forgeTwig(
+        $twigRoot,
+        array $twigOptions,
+        $content_file = null,
+        $error_options = []
+    ) {
+        $stream = TwigStream::forge($twigRoot, $twigOptions);
+        return self::build($stream, $content_file, $error_options);
     }
 
     /**
      * @param ViewStreamInterface $stream
      * @param string              $content_file
      * @param array               $errors
-     * @param array|null          $cookie
      * @return static
      */
-    private static function build($stream, $content_file, $errors, $cookie)
+    private static function build($stream, $content_file, $errors)
     {
         // check options.
-        $cookie = is_null($cookie) ? $_COOKIE: $cookie;
         $errors += [
             'default' => 'errors/error',
             'status'  => [],
             'handler' => false,
         ];
         // construct responders and its dependent objects.
-        $session = SessionStorage::forge('slim-tuum', $cookie);
         $errors  = ErrorView::forge($stream, $errors);
-        $respond = Responder::build($stream, $errors, $content_file)->withSession($session);
-        $self    = new static($respond, $session);
+        $respond = Responder::build($stream, $errors, $content_file);
+        $self    = new static($respond);
 
         return $self;
-
     }
+
     /**
      * save session and responder as $request's attribute.
      *
@@ -98,8 +90,9 @@ class TuumStack
         ResponseInterface $response,
         callable $next
     ) {
-        $request = RequestHelper::withSessionMgr($request, $this->session);
-        $request = $request->withAttribute(Responder::class, $this->responder);
+        $session = SessionStorage::forge('slim-tuum', $request->getCookieParams());
+        $request = RequestHelper::withSessionMgr($request, $session);
+        $request = $request->withAttribute(Responder::class, $this->responder->withSession($session));
         return $next($request, $response);
     }
 }

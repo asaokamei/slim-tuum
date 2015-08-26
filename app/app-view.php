@@ -1,4 +1,5 @@
 <?php
+use Tuum\Slimmed\CallableResolver;
 use Tuum\Slimmed\CsRfGuard;
 use Tuum\Slimmed\TuumStack;
 
@@ -8,7 +9,7 @@ use Tuum\Slimmed\TuumStack;
 
 $app = new Slim\App();
 $app->getContainer()['callableResolver'] = function($c) {
-    return new \Tuum\Slimmed\CallableResolver($c);
+    return new CallableResolver($c);
 };
 
 $app->add(new CsRfGuard());
@@ -27,8 +28,7 @@ $app->add(
                 '403' => 'errors/forbidden',
             ],
             'handler' => false,
-        ],
-        $_COOKIE
+        ]
         ));
 
 

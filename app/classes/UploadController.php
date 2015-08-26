@@ -19,7 +19,7 @@ class UploadController extends AbstractController
     public function onGet()
     {
         return $this->view()
-            ->withReqAttribute('_token')
+            ->withReqAttribute('csrf_name', 'csrf_value')
             ->asView('upload');
     }
 

@@ -22,34 +22,16 @@ final class CallableResolver implements CallableResolverInterface
     protected $container;
 
     /**
-     * @var string
-     */
-    protected $toResolve;
-
-    /**
      * @var callable
      */
     protected $resolved;
 
     /**
      * @param ContainerInterface $container
-     * @param string             $toResolve
      */
-    public function __construct(ContainerInterface $container, $toResolve = null)
+    public function __construct(ContainerInterface $container)
     {
-        $this->toResolve = $toResolve;
         $this->container = $container;
-    }
-
-
-    /**
-     * Receive a string that is to be resolved to a callable
-     *
-     * @param  string $toResolve
-     */
-    public function setToResolve($toResolve)
-    {
-        $this->toResolve = $toResolve;
     }
 
     /**
@@ -58,22 +40,18 @@ final class CallableResolver implements CallableResolverInterface
      * If toResolve is of the format 'class:method', then try to extract 'class'
      * from the container otherwise instantiate it and then dispatch 'method'.
      *
+     * @param mixed $toResolve
      * @return \Closure
-     *
-     * @throws RuntimeException if the callable does not exist
-     * @throws RuntimeException if the callable is not resolvable
      */
-    private function resolve()
+    public function resolve($toResolve)
     {
         // if it's callable, then it's already resolved
-        if (is_callable($this->toResolve)) {
-            $this->resolved = $this->toResolve;
-        } elseif (is_string($this->toResolve)) {
-            $this->resolved = $this->resolveClassAndMethod($this->toResolve);
+        if (is_callable($toResolve)) {
+            return $toResolve;
+        } elseif (is_string($toResolve)) {
+            return $this->resolveClassAndMethod($toResolve);
         }
-        if (!is_callable($this->resolved)) {
-            throw new RuntimeException(sprintf('could not resolve to a callable'));
-        }
+        throw new RuntimeException(sprintf('could not resolve to a callable'));
     }
 
     /**
@@ -103,18 +81,5 @@ final class CallableResolver implements CallableResolverInterface
             return [new $class, $method];
         }
         throw new RuntimeException(sprintf('Callable %s does not exist', $class));
-    }
-
-    /**
-     * Invoke the resolved callable.
-     *
-     * @return \Psr\Http\Message\ResponseInterface
-     */
-    public function __invoke()
-    {
-        if (!isset($this->resolved)) {
-            $this->resolve();
-        }
-        return call_user_func_array($this->resolved, func_get_args());
     }
 }

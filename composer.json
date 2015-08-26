@@ -11,6 +11,7 @@
     "minimum-stability": "dev",
     "require": {
         "slim/slim": "3.x-dev",
+        "slim/csrf": "~0.1",
         "tuum/respond": "1.x@dev"
     },
     "autoload": {

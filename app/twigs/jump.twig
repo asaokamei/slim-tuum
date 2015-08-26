@@ -11,7 +11,8 @@
     <h3>Sample Form</h3>
 
     <form method="post" action="" class="">
-        <input type="hidden" name="_token" value="{{ _token }}">
+        <input type="hidden" name="csrf_name" value="{{ csrf_name }}">
+        <input type="hidden" name="csrf_value" value="{{ csrf_value }}">
 
         <div class="form-group">
             <label for="text2">extra text</label>

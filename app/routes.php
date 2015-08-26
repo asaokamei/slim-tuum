@@ -25,7 +25,7 @@ $app->get('/', function (Request $request, Response $response) {
  */
 $app->get('/jump', function ($request, Response $response) {
     return Respond::view($request, $response)
-        ->withReqAttribute('_token')
+        ->withReqAttribute('csrf_name', 'csrf_value')
         ->asView('jump');
 });
 

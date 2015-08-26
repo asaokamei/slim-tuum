@@ -3,6 +3,7 @@ use Slim\Csrf\Guard;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Tuum\Respond\Respond;
+use Tuum\Slimmed\CallableResolver;
 use Tuum\Slimmed\TuumStack;
 
 /**
@@ -12,7 +13,7 @@ use Tuum\Slimmed\TuumStack;
 session_start();
 $app = new Slim\App();
 $app->getContainer()['callableResolver'] = function($c) {
-    return new \Tuum\Slimmed\CallableResolver($c);
+    return new CallableResolver($c);
 };
 $app->getContainer()['csrf'] = function() {
     $guard = new Guard();

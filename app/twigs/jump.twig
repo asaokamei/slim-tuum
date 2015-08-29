@@ -26,12 +26,19 @@
 
     </form>
 
-    <h4>Sample code using inputs helper</h4>
+    <h3>Form without CSRF Token</h3>
+    
+    The form below does not have CSRF token, i.e. should result in Forbidden error. 
 
-    <div class="form-group">
-        {{ viewData.forms.label('some text:', 'jumped')|raw }}
-        {{ viewData.forms.text('jumped', 'extra text').id().class('form-control')|raw }}
-        {{ viewData.errors.get('jumped')|raw }}
-    </div>
+    <form method="post" action="" class="">
+        <div class="form-group">
+            {{ viewData.forms.label('some text:', 'jumped')|raw }}
+            {{ viewData.forms.text('jumped', 'extra text').id().class('form-control')|raw }}
+            {{ viewData.errors.get('jumped')|raw }}
+        </div>
+        <input type="submit" value="should generate forbidden error!" class="btn btn-info"/>&nbsp;
+        <input type="button" value="clear" onclick="location.href=''" class="btn btn-default"/>
+
+    </form>
 
 {% endblock %}

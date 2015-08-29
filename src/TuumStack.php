@@ -92,7 +92,7 @@ class TuumStack
     ) {
         $session = SessionStorage::forge('slim-tuum', $request->getCookieParams());
         $request = RequestHelper::withSessionMgr($request, $session);
-        $request = $request->withAttribute(Responder::class, $this->responder->withSession($session));
+        $request = $request->withAttribute(Responder::class, $this->responder);
         return $next($request, $response);
     }
 }

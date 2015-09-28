@@ -54,7 +54,7 @@ In `/app/routes.php` file defines routes for the `/jump` URL, which performs the
  */
 $app->get('/jump', function ($request, Response $response) {
     return Respond::view($request, $response)
-        ->withReqAttribute('_token')
+        ->withReqAttribute('csrf_name', 'csrf_value')
         ->asView('jump');
 });
 

@@ -12,8 +12,8 @@
     "require": {
         "slim/slim": "3.x-dev",
         "slim/csrf": "~0.1",
-        "tuum/respond": "1.x@dev",
-        "tuum/view": "1.x@dev",
+        "tuum/respond": "1.0.0beta1",
+        "tuum/locator": "1.x@dev",
         "twig/twig": "^1.0"
     },
     "autoload": {

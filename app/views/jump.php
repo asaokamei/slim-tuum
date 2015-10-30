@@ -19,7 +19,8 @@ $forms = $view->forms->withClass('form-control');
 <?= $view->message; ?>
 
 <?= $forms->open()->action('')->method('post'); ?>
-<?= $data->hiddenTag('_token'); ?>
+<?= $data->hiddenTag('csrf_name'); ?>
+<?= $data->hiddenTag('csrf_value'); ?>
 
 <?=
 $forms->formGroup(

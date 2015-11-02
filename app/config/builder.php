@@ -12,7 +12,10 @@ use Tuum\Builder\AppBuilder;
 use Tuum\Slimmed\DocumentMap;
 
 /** @var $builder AppBuilder */
-/** @var $app Slim\App */
+
+$app = new Slim\App();
+$builder->app = $app;
+
 
 /**
  * resolving found path to a resolver. 
@@ -48,8 +51,10 @@ $app->add($app->getContainer()['csrf']);
  */
 ResponseHelper::$responseBuilder = function(StreamInterface $stream, $status, array $header) {
     $response = new Response();
-    $response = $response->withStatus($status)
-        ->withBody($stream);
+    $response = $response
+        ->withBody($stream)
+        ->withStatus($status)
+    ;
     foreach($header as $key => $val) {
         $response = $response->withHeader($key, $val);
     }

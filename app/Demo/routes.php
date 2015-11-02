@@ -87,6 +87,6 @@ $app->post('/upload', function(Request $request, Response $response) {
  * FileMap for Document files
  */
 $app->getContainer()[DocumentMap::class] = function() {
-    return DocumentMap::forge(__DIR__.'/docs', dirname(__DIR__).'/vars/markUp');
+    return DocumentMap::forge(dirname(__DIR__).'/docs', dirname(dirname(__DIR__)).'/vars/markUp');
 };
 $app->any('/docs/{pathInfo:.*}', DocumentMap::class);

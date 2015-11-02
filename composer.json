@@ -13,9 +13,17 @@
         "slim/slim": "3.x-dev",
         "slim/csrf": "~0.1",
         "tuum/respond": "1.0.0beta1",
-        "tuum/locator": "1.x@dev",
-        "twig/twig": "^1.0"
+        "tuum/filemap": "1.0.0beta1",
+        "twig/twig": "^1.0",
+        "tuum/view": "1.0.0beta1",
+        "tuum/builder":"dev-master"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com//asaokamei/WScore.Builder"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "Tuum\\Slimmed\\": "src/"

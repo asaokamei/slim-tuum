@@ -13,7 +13,6 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 
 /** @var App $app */
 $app = require dirname(__DIR__) . '/app/app-view.php';
-require dirname(__DIR__) . '/app/routes.php';
 
 /**
  * Step 4: Run the Slim application

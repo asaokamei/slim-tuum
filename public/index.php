@@ -11,7 +11,7 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 /**
  * build application
  */
-$app = require dirname(__DIR__) . '/app/app-twig.php';
+$app = require dirname(__DIR__) . '/app/app.php';
 
 /**
  * Run the Slim application

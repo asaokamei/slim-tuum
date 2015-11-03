@@ -10,8 +10,13 @@ use Tuum\Respond\ResponseHelper;
 use Tuum\Slimmed\CallableResolver;
 use Tuum\Builder\AppBuilder;
 use Tuum\Slimmed\DocumentMap;
+use Tuum\Slimmed\TuumStack;
 
-/** @var $builder AppBuilder */
+/**
+ * build Slim application. 
+ * 
+ * @var $builder AppBuilder
+ */
 
 $app = new Slim\App();
 $builder->app = $app;
@@ -26,6 +31,7 @@ $builder->app = $app;
 $app->getContainer()['callableResolver'] = function($c) {
     return new CallableResolver($c);
 };
+
 /**
  * C.S.R.F. guardian by Slim. 
  * 
@@ -69,3 +75,21 @@ ResponseHelper::$responseBuilder = function(StreamInterface $stream, $status, ar
 $app->getContainer()[DocumentMap::class] = function() {
     return DocumentMap::forge(dirname(__DIR__).'/docs', dirname(dirname(__DIR__)).'/vars/markUp');
 };
+
+/**
+ * use Tuum/Responder with Twig as renderer.
+ */
+$app->add(
+    TuumStack::forgeTwig(
+        $builder->get('twig-dir'),
+        [],
+        'layouts/contents',
+        [
+            'default' => 'errors/error',
+            'status'  => [
+                '404' => 'errors/notFound',
+                '403' => 'errors/forbidden',
+            ],
+            'handler' => false,
+        ]
+    ));

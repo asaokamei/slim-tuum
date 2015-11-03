@@ -11,8 +11,8 @@ $builder = new AppBuilder(__DIR__.'/config', dirname(__DIR__).'/var');
 /**
  * configure with config/builder.php
  */
+$builder->set('twig-dir', __DIR__.'/Demo/twigs');
 $builder->configure('builder');
-$builder->configure('build-twig');
 
 /**
  * import routes

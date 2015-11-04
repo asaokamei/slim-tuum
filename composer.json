@@ -12,10 +12,9 @@
     "require": {
         "slim/slim": "3.x-dev",
         "slim/csrf": "~0.1",
-        "tuum/respond": "1.0.0beta1",
-        "tuum/filemap": "1.0.0beta1",
+        "tuum/respond": "^1.0",
+        "tuum/filemap": "^1.0",
         "twig/twig": "^1.0",
-        "tuum/view": "1.0.0beta1",
         "tuum/builder":"dev-master"
     },
     "repositories": [

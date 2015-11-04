@@ -1,17 +1,31 @@
 <?php
 use Slim\App;
+use Tuum\Builder\AppBuilder;
 
 /** @var App $app */
 
-/**
- * composer autoloader
- */
-require dirname(__DIR__) . '/vendor/autoload.php';
+$root_dir = dirname(__DIR__);
 
 /**
- * build application
+ * composer's auto-loader
  */
-$app = require dirname(__DIR__) . '/app/app.php';
+require_once $root_dir . '/vendor/autoload.php';
+
+/**
+ * build Slim3 application
+ */
+session_start();
+$builder = AppBuilder::forge(
+    $root_dir.'/app/config',
+    $root_dir.'/var', [
+        'env-file' => 'env',
+        'debug'    => false,
+    ]
+);
+$builder->setup(
+    require $root_dir . '/app/app.php'
+);
+$app = $builder->app;
 
 /**
  * Run the Slim application

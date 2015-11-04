@@ -8,18 +8,9 @@ use Slim\Http\Response;
 use Tuum\Respond\Respond;
 use Tuum\Respond\ResponseHelper;
 use Tuum\Slimmed\CallableResolver;
-use Tuum\Builder\AppBuilder;
 use Tuum\Slimmed\DocumentMap;
 use Tuum\Slimmed\TuumStack;
 
-/**
- * build Slim application. 
- * 
- * @var $builder AppBuilder
- */
-
-$app = new Slim\App();
-$builder->app = $app;
 
 
 /**

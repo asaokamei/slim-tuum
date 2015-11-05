@@ -1,5 +1,6 @@
 <?php
 
+use App\Demo\Controller\JumpController;
 use App\Demo\Controller\UploadController;
 use Interop\Container\ContainerInterface;
 use Slim\Http\Request;
@@ -22,23 +23,6 @@ $app->get('/', function (Request $request, Response $response) {
 });
 
 /**
- * jump and jumper to see the redirection and parameter in flash
- */
-$app->get('/jump', function ($request, Response $response) {
-    return Respond::view($request, $response)
-        ->withReqAttribute('csrf_name', 'csrf_value')
-        ->asView('jump');
-});
-
-$app->post('/jump', function (Request $request, Response $response) {
-    return Respond::redirect($request, $response)
-        ->withMessage('redirected back!')
-        ->withInputData(['jumped' => 'redirected text'])
-        ->withInputErrors(['jumped' => 'redirected error message'])
-        ->toPath('jump');
-});
-
-/**
  * check asContents
  */
 $app->get('/content', function(Request $request, Response $response) {
@@ -52,6 +36,19 @@ $app->get('/content', function(Request $request, Response $response) {
 $app->get('/throw', function() {
     throw new \RuntimeException('This page throws a RuntimeException!');
 });
+
+
+/**
+ * jump and jumper to see the redirection and parameter in flash
+ *
+ * @param ContainerInterface $c
+ * @return JumpController
+ */
+$app->getContainer()[JumpController::class] = function(ContainerInterface $c) {
+    return new JumpController($c->get(Responder::class));
+};
+$app->get('/jump', JumpController::class.':onGet');
+$app->post('/jump', JumpController::class.':onPost');
 
 
 /**

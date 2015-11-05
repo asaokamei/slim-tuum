@@ -25,7 +25,8 @@
     ],
     "autoload": {
         "psr-4": {
-            "Tuum\\Slimmed\\": "src/"
+            "Tuum\\Slimmed\\": "src/",
+            "App\\": "app/"
         }
     }
 }

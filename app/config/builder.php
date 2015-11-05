@@ -6,12 +6,14 @@ use Slim\Csrf\Guard;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Tuum\Respond\Respond;
+use Tuum\Respond\Responder;
 use Tuum\Respond\ResponseHelper;
+use Tuum\Respond\Service\ErrorView;
+use Tuum\Respond\Service\TwigStream;
 use Tuum\Slimmed\CallableResolver;
-use Tuum\Slimmed\DocumentMap;
 use Tuum\Slimmed\TuumStack;
 
-
+$container = $app->getContainer();
 
 /**
  * resolving found path to a resolver. 
@@ -19,7 +21,7 @@ use Tuum\Slimmed\TuumStack;
  * @param Container $c
  * @return CallableResolver
  */
-$app->getContainer()['callableResolver'] = function($c) {
+$container['callableResolver'] = function($c) {
     return new CallableResolver($c);
 };
 
@@ -28,7 +30,7 @@ $app->getContainer()['callableResolver'] = function($c) {
  * 
  * @return Guard
  */
-$app->getContainer()['csrf'] = function() {
+$container['csrf'] = function() {
     $guard = new Guard();
     $guard->setFailureCallable(function(Request $request, Response $response){
         return Respond::error($request, $response)->forbidden();
@@ -36,7 +38,7 @@ $app->getContainer()['csrf'] = function() {
     return $guard;
 };
 
-$app->add($app->getContainer()['csrf']);
+$app->add($container['csrf']);
 
 /**
  * set up a response builder. 
@@ -53,34 +55,32 @@ ResponseHelper::$responseBuilder = function(StreamInterface $stream, $status, ar
         ->withStatus($status)
     ;
     foreach($header as $key => $val) {
+        /** @noinspection PhpUndefinedMethodInspection  ...but why? */
         $response = $response->withHeader($key, $val);
     }
     return $response;
 };
 
 /**
- * set up FileMap resolver, DocumentMap. 
- * 
- * @return DocumentMap
- */
-$app->getContainer()[DocumentMap::class] = function() {
-    return DocumentMap::forge(dirname(__DIR__).'/docs', dirname(dirname(__DIR__)).'/vars/markUp');
-};
-
-/**
  * use Tuum/Responder with Twig as renderer.
  */
+$container[Responder::class] = function() use($builder) {
+
+    $stream = TwigStream::forge($builder->get('twig-dir'), []);
+    $errors = ErrorView::forge($stream, [
+        'default' => 'errors/error',
+        'status'  => [
+            '404' => 'errors/notFound',
+            '403' => 'errors/forbidden',
+        ],
+        'handler' => false,
+    ]);
+    $responder = Responder::build($stream, $errors, 'layouts/contents');
+
+    return $responder;
+};
+
 $app->add(
-    TuumStack::forgeTwig(
-        $builder->get('twig-dir'),
-        [],
-        'layouts/contents',
-        [
-            'default' => 'errors/error',
-            'status'  => [
-                '404' => 'errors/notFound',
-                '403' => 'errors/forbidden',
-            ],
-            'handler' => false,
-        ]
-    ));
+    new TuumStack($container->get(Responder::class))
+);
+

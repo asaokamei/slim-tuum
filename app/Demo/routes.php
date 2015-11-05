@@ -1,9 +1,11 @@
 <?php
 
+use App\Demo\Controller\UploadController;
+use Interop\Container\ContainerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Slim\Http\UploadedFile;
 use Tuum\Respond\Respond;
+use Tuum\Respond\Responder;
 use Tuum\Slimmed\DocumentMap;
 
 /**
@@ -51,39 +53,26 @@ $app->get('/throw', function() {
     throw new \RuntimeException('This page throws a RuntimeException!');
 });
 
+
 /**
  * file upload example
+ * 
+ * @param ContainerInterface $c
+ * @return UploadController
  */
-$app->get('/upload', function(Request $request, Response $response) {
-    return Respond::view($request, $response)
-        ->withReqAttribute('csrf_name', 'csrf_value')
-        ->asView('upload');
-});
+$app->getContainer()[UploadController::class] = function(ContainerInterface $c) {
+    return new UploadController($c->get(Responder::class));
+};
+$app->get('/upload', UploadController::class.':onGet');
+$app->post('/upload', UploadController::class.':onPost');
 
-$app->post('/upload', function(Request $request, Response $response) {
-    $responder = Respond::redirect($request, $response);
-    $uploaded  = $request->getUploadedFiles();
-    $responder
-        ->with('isUploaded', true)
-        ->with('dump', print_r($uploaded, true));
-    /** @var UploadedFile $upload */
-    $upload = $uploaded['up'][0];
-    $responder->with('upload', $upload);
-
-    if ($upload->getError()===UPLOAD_ERR_NO_FILE) {
-        $responder->withErrorMsg('please uploaded a file');
-    } elseif ($upload->getError()===UPLOAD_ERR_FORM_SIZE || $upload->getError()===UPLOAD_ERR_INI_SIZE) {
-        $responder->withErrorMsg('uploaded file size too large!');
-    } elseif ($upload->getError()!==UPLOAD_ERR_OK) {
-        $responder->withErrorMsg('uploading failed!');
-    } else {
-        $responder->withMessage('uploaded a file');
-    }
-    return $responder
-        ->toPath('/upload');
-});
 
 /**
  * FileMap for Document files
+ *
+ * @return DocumentMap
  */
+$app->getContainer()[DocumentMap::class] = function() {
+    return DocumentMap::forge(dirname(__DIR__).'/docs', dirname(dirname(__DIR__)).'/vars/markUp');
+};
 $app->any('/docs/{pathInfo:.*}', DocumentMap::class);

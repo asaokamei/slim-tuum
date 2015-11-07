@@ -14,15 +14,9 @@
         "slim/csrf": "~0.1",
         "tuum/respond": "^1.0",
         "tuum/filemap": "^1.0",
-        "twig/twig": "^1.0",
-        "tuum/builder":"dev-master"
+        "tuum/builder":"^1.0",
+        "twig/twig": "^1.0"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com//asaokamei/WScore.Builder"
-        }
-    ],
     "autoload": {
         "psr-4": {
             "Tuum\\Slimmed\\": "src/",

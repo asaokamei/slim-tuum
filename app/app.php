@@ -12,11 +12,12 @@ return function(AppBuilder $builder) {
      * configure with config/builder.php for Demo.
      */
     $builder->set('twig-dir', __DIR__.'/Demo/twigs');
-    $builder->execConfig('builder');
+    $builder->configure('builder');
 
     /**
      * import routes
      */
+    $builder->execute(__DIR__.'/Demo/setup');
     $builder->execute(__DIR__.'/Demo/routes');
 
 };

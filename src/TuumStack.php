@@ -7,7 +7,10 @@ use Tuum\Respond\RequestHelper;
 use Tuum\Respond\Responder;
 use Tuum\Respond\Service\ErrorView;
 use Tuum\Respond\Service\SessionStorage;
+use Tuum\Respond\Service\TuumViewer;
 use Tuum\Respond\Service\TwigStream;
+use Tuum\Respond\Service\TwigViewer;
+use Tuum\Respond\Service\ViewerInterface;
 use Tuum\Respond\Service\ViewStream;
 use Tuum\Respond\Service\ViewStreamInterface;
 
@@ -34,7 +37,7 @@ class TuumStack
      */
     public static function forge($viewDir, $content_file = null, $error_options = [])
     {
-        $stream = ViewStream::forge($viewDir);
+        $stream = TuumViewer::forge($viewDir);
         return self::build($stream, $content_file, $error_options);
     }
 
@@ -51,12 +54,12 @@ class TuumStack
         $content_file = null,
         $error_options = []
     ) {
-        $stream = TwigStream::forge($twigRoot, $twigOptions);
+        $stream = TwigViewer::forge($twigRoot, $twigOptions);
         return self::build($stream, $content_file, $error_options);
     }
 
     /**
-     * @param ViewStreamInterface $stream
+     * @param ViewerInterface $stream
      * @param string              $content_file
      * @param array               $errors
      * @return static
@@ -90,8 +93,6 @@ class TuumStack
         ResponseInterface $response,
         callable $next
     ) {
-        $session = SessionStorage::forge('slim-tuum', $request->getCookieParams());
-        $request = RequestHelper::withSessionMgr($request, $session);
         $request = $request->withAttribute(Responder::class, $this->responder);
         return $next($request, $response);
     }

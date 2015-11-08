@@ -7,6 +7,7 @@ use Slim\Http\Response;
 use Tuum\Respond\Respond;
 use Tuum\Respond\Responder;
 use Tuum\Respond\Service\ErrorView;
+use Tuum\Respond\Service\SessionStorage;
 use Tuum\Respond\Service\TwigViewer;
 use Tuum\Slimmed\CallableResolver;
 use Tuum\Slimmed\TuumStack;
@@ -33,17 +34,17 @@ $app->add($container['csrf']);
  */
 $container[Responder::class] = function() use($builder) {
 
-    $stream = TwigViewer::forge($builder->get('twig-dir'), []);
-    $errors = ErrorView::forge($stream, [
+    $stream    = TwigViewer::forge($builder->get('twig-dir'), []);
+    $errors    = ErrorView::forge($stream, [
         'default' => 'errors/error',
         'status'  => [
             '404' => 'errors/notFound',
             '403' => 'errors/forbidden',
         ],
     ]);
-    $responder = Responder::build($stream, $errors, 'layouts/contents');
 
-    return $responder;
+    return Responder::build($stream, $errors, 'layouts/contents')
+        ->withSession(SessionStorage::forge('slim-tuum'));
 };
 
 $app->add(

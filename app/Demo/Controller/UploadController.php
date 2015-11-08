@@ -51,7 +51,7 @@ class UploadController
         $upload   = $uploaded['up'][0];
 
         $this->checkUploaded($upload);
-        $this->responder = $this->responder->viewData(
+        $this->responder = $this->responder->withViewData(
             function (ViewData $view) use ($uploaded, $upload) {
                 return $view->setData('isUploaded', true)
                     ->setData('dump', print_r($uploaded, true))
@@ -66,7 +66,7 @@ class UploadController
      */
     private function checkUploaded(UploadedFile $upload)
     {
-        $this->responder = $this->responder->viewData(
+        $this->responder = $this->responder->withViewData(
             function (ViewData $view) use ($upload) {
 
                 if ($upload->getError() === UPLOAD_ERR_NO_FILE) {

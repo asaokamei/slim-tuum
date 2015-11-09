@@ -53,9 +53,9 @@ class UploadController
         $this->checkUploaded($upload);
         $this->responder = $this->responder->withViewData(
             function (ViewData $view) use ($uploaded, $upload) {
-                return $view->data('isUploaded', true)
-                    ->data('dump', print_r($uploaded, true))
-                    ->data('upload', $upload);
+                return $view->setData('isUploaded', true)
+                    ->setData('dump', print_r($uploaded, true))
+                    ->setData('upload', $upload);
             });
 
         return $this->onGet($request, $response);
@@ -70,13 +70,13 @@ class UploadController
             function (ViewData $view) use ($upload) {
 
                 if ($upload->getError() === UPLOAD_ERR_NO_FILE) {
-                    $view->error('please uploaded a file');
+                    $view->setError('please uploaded a file');
                 } elseif ($upload->getError() === UPLOAD_ERR_FORM_SIZE || $upload->getError() === UPLOAD_ERR_INI_SIZE) {
-                    $view->error('uploaded file size too large!');
+                    $view->setError('uploaded file size too large!');
                 } elseif ($upload->getError() !== UPLOAD_ERR_OK) {
-                    $view->error('uploading failed!');
+                    $view->setError('uploading failed!');
                 } else {
-                    $view->success('uploaded a file');
+                    $view->setSuccess('uploaded a file');
                 }
                 return $view;
             });

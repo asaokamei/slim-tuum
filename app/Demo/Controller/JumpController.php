@@ -45,7 +45,7 @@ class JumpController
     public function onPost(ServerRequestInterface $request, ResponseInterface $response)
     {
         return $this->responder->redirect($request, $response)
-            ->withMessage('redirected back!')
+            ->withSuccess('redirected back!')
             ->withInputData(['jumped' => 'redirected text'])
             ->withInputErrors(['jumped' => 'redirected error message'])
             ->toPath('jump');

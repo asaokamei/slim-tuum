@@ -53,9 +53,9 @@ class UploadController
         $this->checkUploaded($upload);
         $this->responder = $this->responder->withViewData(
             function (ViewData $view) use ($uploaded, $upload) {
-                return $view->setData('isUploaded', true)
-                    ->setData('dump', print_r($uploaded, true))
-                    ->setData('upload', $upload);
+                return $view->data('isUploaded', true)
+                    ->data('dump', print_r($uploaded, true))
+                    ->data('upload', $upload);
             });
 
         return $this->onGet($request, $response);

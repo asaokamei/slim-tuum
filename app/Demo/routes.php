@@ -47,8 +47,7 @@ $app->post('/jump', JumpController::class.':onPost');
 /**
  * file upload example
  */
-$app->get('/upload', UploadController::class.':onGet');
-$app->post('/upload', UploadController::class.':onPost');
+$app->any('/upload', UploadController::class);
 
 
 /**

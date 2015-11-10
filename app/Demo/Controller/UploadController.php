@@ -24,6 +24,17 @@ class UploadController
     }
 
     /**
+     * @param Request  $request
+     * @param Response $response
+     * @return ResponseInterface
+     */
+    public function __invoke(Request $request, Response $response)
+    {
+        $method = 'on'.$request->getMethod();
+        return $this->$method($request, $response);
+    }
+
+    /**
      * show upload form.
      *
      * @param Request  $request

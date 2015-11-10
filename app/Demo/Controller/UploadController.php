@@ -6,7 +6,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use Slim\Http\UploadedFile;
 use Tuum\Respond\Responder;
-use Tuum\Respond\Service\ViewData;
+use Tuum\Respond\Responder\ViewData;
 
 class UploadController
 {

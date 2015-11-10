@@ -19,7 +19,7 @@ $builder = AppBuilder::forge(
     $root_dir.'/app/config',
     $root_dir.'/var', [
         'env-file' => 'env',
-        'debug'    => false,
+        'debug'    => true,
     ]
 );
 $builder->setup(

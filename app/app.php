@@ -6,7 +6,13 @@ return function(AppBuilder $builder) {
     /**
      * build Slim application.
      */
-    $builder->app = new Slim\App();
+    $setting = [
+        'settings' => [],
+    ];
+    if ($builder->debug) {
+        $setting['settings']['displayErrorDetails'] = true;
+    }
+    $builder->app = new Slim\App($setting);
 
     /**
      * configure with config/builder.php for Demo.

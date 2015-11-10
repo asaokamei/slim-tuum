@@ -1,6 +1,5 @@
 <?php
 
-use Slim\Container;
 use Slim\Csrf\Guard;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -9,7 +8,6 @@ use Tuum\Respond\Responder;
 use Tuum\Respond\Service\ErrorView;
 use Tuum\Respond\Service\SessionStorage;
 use Tuum\Respond\Service\TwigViewer;
-use Tuum\Slimmed\CallableResolver;
 use Tuum\Slimmed\TuumStack;
 
 $container = $app->getContainer();

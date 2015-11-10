@@ -4,20 +4,18 @@ use Tuum\Builder\AppBuilder;
 return function(AppBuilder $builder) {
 
     /**
-     * build Slim application.
+     * structure settings.
      */
-    $setting = [
-        'settings' => [],
-    ];
+    $setting = $builder->configure('setting')->get('setting');
     if ($builder->debug) {
         $setting['settings']['displayErrorDetails'] = true;
     }
-    $builder->app = new Slim\App($setting);
+    $builder->set('twig-dir', __DIR__.'/Demo/twigs');
 
     /**
-     * configure with config/builder.php for Demo.
+     * build Slim application for Demo.
      */
-    $builder->set('twig-dir', __DIR__.'/Demo/twigs');
+    $builder->app = new Slim\App($setting);
     $builder->configure('builder');
 
     /**

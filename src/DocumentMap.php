@@ -43,17 +43,13 @@ class DocumentMap implements ServiceProviderInterface
     {
         $path = isset($args['pathInfo']) ? $args['pathInfo'] : '';
         $info = $this->map->render($path);
-        if (empty($info)) {
+        if (!$info->found()) {
             return Respond::error($request, $response)->asView(500);
         }
-        list($fp, $mime) = $info;
-        if (is_resource($fp)) {
-            return Respond::view($request, $response)->asFileContents($fp, $mime);
+        if ($fp = $info->getResource()) {
+            return Respond::view($request, $response)->asFileContents($fp, $info->getMimeType());
         }
-        if (is_string($fp)) {
-            return Respond::view($request, $response)->asContents($fp);
-        }
-        return Respond::error($request, $response)->asView(500);
+        return Respond::view($request, $response)->asContents($info->getContents());
     }
 
     /**

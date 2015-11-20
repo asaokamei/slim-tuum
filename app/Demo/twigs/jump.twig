@@ -18,7 +18,7 @@
             <label for="text2">extra text</label>
             <input type="text" name="text2" id="text2" value="{{ viewData.inputs.get('jumped', 'original text') }}"
                    class="form-control"/>
-            {{ viewData.errors.get('jumped')|raw }}
+            {{ viewData.errors.p('jumped')|raw }}
         </div>
 
         <input type="submit" value="jump!" class="btn btn-primary"/>&nbsp;
@@ -34,7 +34,7 @@
         <div class="form-group">
             {{ viewData.forms.label('some text:', 'jumped')|raw }}
             {{ viewData.forms.text('jumped', 'extra text').id().class('form-control')|raw }}
-            {{ viewData.errors.get('jumped')|raw }}
+            {{ viewData.errors.p('jumped')|raw }}
         </div>
         <input type="submit" value="should generate forbidden error!" class="btn btn-info"/>&nbsp;
         <input type="button" value="clear" onclick="location.href=''" class="btn btn-default"/>

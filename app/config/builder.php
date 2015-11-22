@@ -3,6 +3,7 @@
 use Slim\Csrf\Guard;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use Tuum\Respond\Helper\ResponderBuilder;
 use Tuum\Respond\Respond;
 use Tuum\Respond\Responder;
 use Tuum\Respond\Service\ErrorView;
@@ -41,7 +42,7 @@ $container[Responder::class] = function() use($builder) {
         ],
     ]);
 
-    return Responder::build($stream, $errors, 'layouts/contents')
+    return ResponderBuilder::withServices($stream, $errors, 'layouts/contents')
         ->withSession(SessionStorage::forge('slim-tuum'));
 };
 

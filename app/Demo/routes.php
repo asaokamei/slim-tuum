@@ -2,10 +2,12 @@
 
 use App\Demo\Controller\JumpController;
 use App\Demo\Controller\UploadController;
+use Slim\App;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Tuum\Respond\Respond;
 use Tuum\Respond\Responder;
+use Tuum\Respond\Responder\ViewData;
 use Tuum\Slimmed\DocumentMap;
 
 /**
@@ -40,8 +42,13 @@ $app->get('/throw', function() {
 /**
  * jump and jumper to see the redirection and parameter in flash
  */
-$app->get('/jump', JumpController::class.':onGet');
-$app->post('/jump', JumpController::class.':onPost');
+$app->group( '/jump', function() {
+    /** @var App $this */
+    $this->get('', JumpController::class.':onGet');
+    $this->post('', JumpController::class.':onPost');
+})->add(function(Request $request, Response $response, $next) {
+    return $next($request, $response);
+});
 
 
 /**

@@ -5,6 +5,7 @@ use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Slim\Http\UploadedFile;
+use Tuum\Respond\Respond;
 use Tuum\Respond\Responder;
 use Tuum\Respond\Responder\ViewData;
 
@@ -35,6 +36,19 @@ class UploadController
     }
 
     /**
+     * @param Request  $request
+     * @param Response $response
+     * @return ResponseInterface
+     */    
+    private function view(Request $request, Response $response)
+    {
+        return Respond::view($request, $response)
+            ->withReqAttribute('csrf_name', 'csrf_value')
+            ->asView('upload');
+
+    }
+    
+    /**
      * show upload form.
      *
      * @param Request  $request
@@ -43,9 +57,7 @@ class UploadController
      */
     public function onGet(Request $request, Response $response)
     {
-        return $this->responder->view($request, $response)
-            ->withReqAttribute('csrf_name', 'csrf_value')
-            ->asView('upload');
+        return $this->view($request, $response);
     }
 
     /**
@@ -69,7 +81,7 @@ class UploadController
                     ->setData('upload', $upload);
             });
 
-        return $this->onGet($request, $response);
+        return $this->view($request, $response);
     }
 
     /**

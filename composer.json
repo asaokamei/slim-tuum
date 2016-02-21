@@ -10,7 +10,7 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "slim/slim": "3.x-dev",
+        "slim/slim": "^3.0",
         "slim/csrf": "~0.1",
         "tuum/respond": "^1.0",
         "tuum/filemap": "^1.0",

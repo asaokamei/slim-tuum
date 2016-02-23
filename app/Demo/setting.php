@@ -11,13 +11,15 @@ use Interop\Container\ContainerInterface;
 use Tuum\Respond\Responder;
 use Tuum\Slimmed\DocumentMap;
 
+$container = $app->getContainer();
+
 /**
  * jump and jumper to see the redirection and parameter in flash
  *
  * @param ContainerInterface $c
  * @return JumpController
  */
-$app->getContainer()[JumpController::class] = function(ContainerInterface $c) {
+$container[JumpController::class] = function(ContainerInterface $c) {
     return new JumpController($c->get(Responder::class));
 };
 
@@ -28,7 +30,7 @@ $app->getContainer()[JumpController::class] = function(ContainerInterface $c) {
  * @param ContainerInterface $c
  * @return UploadController
  */
-$app->getContainer()[UploadController::class] = function(ContainerInterface $c) {
+$container[UploadController::class] = function(ContainerInterface $c) {
     return new UploadController($c->get(Responder::class));
 };
 
@@ -38,6 +40,6 @@ $app->getContainer()[UploadController::class] = function(ContainerInterface $c) 
  *
  * @return DocumentMap
  */
-$app->getContainer()[DocumentMap::class] = function() {
+$container[DocumentMap::class] = function() {
     return DocumentMap::forge(dirname(__DIR__).'/docs', dirname(dirname(__DIR__)).'/vars/markUp');
 };

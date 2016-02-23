@@ -15,16 +15,13 @@ require_once $root_dir . '/vendor/autoload.php';
  * build Slim3 application
  */
 session_start();
-$builder = AppBuilder::forge(
-    $root_dir.'/app/config',
-    $root_dir.'/var', [
-        'env-file' => 'env',
-        'debug'    => true,
-    ]
-);
-$builder->setup(
-    require $root_dir . '/app/app.php'
-);
+$config = [
+    'env-file' => 'env',
+    'debug'    => true,
+];
+/** @var callable $script */
+$script = require $root_dir . '/app/app.php';
+$builder = $script($config);
 $app = $builder->app;
 
 /**

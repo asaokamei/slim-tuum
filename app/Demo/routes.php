@@ -2,6 +2,8 @@
 
 use App\Demo\Controller\JumpController;
 use App\Demo\Controller\UploadController;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Slim\App;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -19,7 +21,7 @@ use Tuum\Slimmed\DocumentMap;
 /**
  * top page
  */
-$app->get('/', function (Request $request, Response $response) {
+$app->get('/', function (ServerRequestInterface $request, ResponseInterface $response) {
     return Respond::view($request, $response)->asView('index');
 });
 

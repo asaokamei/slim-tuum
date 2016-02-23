@@ -10,12 +10,12 @@ use Tuum\Respond\Service\TwigViewer;
 class ResponderFactory
 {
     /**
-     * @param ContainerInterface $c
      * @return \Tuum\Respond\Responder
      */
-    public function __invoke(ContainerInterface $c)
+    public function __invoke()
     {
-        $stream    = TwigViewer::forge($c->get('twig-dir'), []);
+        $twig_dir  = dirname(dirname(__DIR__)).'/Demo/twigs';
+        $stream    = TwigViewer::forge($twig_dir, []);
         $errors    = ErrorView::forge($stream, [
             'default' => 'errors/error',
             'status'  => [

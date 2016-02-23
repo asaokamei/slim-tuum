@@ -1,26 +1,27 @@
 <?php
+use Tuum\Slimmed\Container;
 use Tuum\Builder\AppBuilder;
 
 return function(array $config) {
 
     $root_dir = dirname(__DIR__);
     $builder = AppBuilder::forge(
-        $root_dir.'/app/Config',
+        $root_dir.'/app',
         $root_dir.'/var',
         $config
     );
 
     /**
-     * structure settings.
+     * container settings.
      */
-    $builder->configure('settings');
-    $setting = $builder->get('setting');
-    $setting['twig-dir'] = __DIR__.'/Demo/twigs';
+    $container = Container::forge();
+    $builder->set('container', $container);
+    $builder->configure('service');
 
     /**
      * build Slim application for Demo.
      */
-    $builder->app = new Slim\App($setting);
+    $builder->app = new Slim\App($container);
     $builder->configure('middleware');
 
     /**

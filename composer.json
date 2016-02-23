@@ -15,7 +15,8 @@
         "tuum/respond": "^1.0",
         "tuum/filemap": "^1.0",
         "tuum/builder":"^1.0",
-        "twig/twig": "^1.0"
+        "twig/twig": "^1.0",
+        "league/container":"^2.0"
     },
     "autoload": {
         "psr-4": {

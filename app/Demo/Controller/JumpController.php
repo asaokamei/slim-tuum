@@ -15,7 +15,7 @@ class JumpController
     /**
      * @param Responder $responder
      */
-    public function __construct($responder)
+    public function __construct(Responder $responder)
     {
         $this->responder = $responder;
     }

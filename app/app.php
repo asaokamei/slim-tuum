@@ -15,6 +15,7 @@ return function(array $config) {
      * container settings.
      */
     $container = Container::forge();
+    $container['twig-dir'] = __DIR__ . '/Demo/twigs';
     $builder->set('container', $container);
     $builder->configure('service');
 

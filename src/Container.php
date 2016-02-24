@@ -4,6 +4,7 @@ namespace Tuum\Slimmed;
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\ContainerException;
 use Interop\Container\Exception\NotFoundException;
+use League\Container\ReflectionContainer;
 
 class Container implements ContainerInterface, \ArrayAccess
 {
@@ -27,7 +28,11 @@ class Container implements ContainerInterface, \ArrayAccess
      */
     public static function forge()
     {
-        return new self(new \League\Container\Container());
+        $container = new \League\Container\Container();
+        $container->delegate(
+            new ReflectionContainer
+        );
+        return new self($container);
     }
     
     /**
@@ -55,7 +60,13 @@ class Container implements ContainerInterface, \ArrayAccess
      */
     public function has($id)
     {
-        return $this->container->has($id);
+        if ($this->container->has($id)) {
+            return true;
+        }
+        if (is_string($id) && class_exists($id)) {
+            return true;
+        }
+        return false;
     }
 
     /**

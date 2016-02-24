@@ -15,13 +15,18 @@ $container = $app->getContainer();
 
 /**
  * jump and jumper to see the redirection and parameter in flash
+ * 
+ * temporary off-code for testing auto-wiring. 
  *
  * @param ContainerInterface $c
  * @return JumpController
- */
+ * 
+
 $container[JumpController::class] = function(ContainerInterface $c) {
     return new JumpController($c->get(Responder::class));
 };
+
+ */
 
 
 /**

@@ -23,7 +23,7 @@ return function(array $config) {
     $container['twig-dir'] = __DIR__ . '/Demo/twigs';
     $container['root-dir'] = $root_dir;
     $builder->set('container', $container);
-    $builder->configure('service');
+    $builder->configure('setting');
 
     /**
      * build Slim application for Demo.
@@ -34,7 +34,7 @@ return function(array $config) {
     /**
      * import routes
      */
-    $builder->execute(__DIR__.'/Demo/setting');
+    $builder->execute(__DIR__.'/Demo/dependencies');
     $builder->execute(__DIR__.'/Demo/routes');
 
     return $builder->app;

@@ -5,7 +5,6 @@
  *
  * @var Slim\App $app
  */
-use App\Demo\Controller\JumpController;
 use App\Demo\Controller\UploadController;
 use Interop\Container\ContainerInterface;
 use Slim\App;

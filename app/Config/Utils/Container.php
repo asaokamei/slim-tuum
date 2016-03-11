@@ -110,7 +110,7 @@ class Container implements ContainerInterface, \ArrayAccess
     /**
      * Offset to unset
      *
-     * @return void
+     * @param mixed $offset
      */
     public function offsetUnset($offset)
     {

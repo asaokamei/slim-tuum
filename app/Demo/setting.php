@@ -8,43 +8,42 @@
 use App\Demo\Controller\JumpController;
 use App\Demo\Controller\UploadController;
 use Interop\Container\ContainerInterface;
+use Slim\App;
+use Tuum\Builder\AppBuilder;
 use Tuum\Respond\Responder;
 use Tuum\Slimmed\DocumentMap;
 
-$container = $app->getContainer();
-
 /**
- * jump and jumper to see the redirection and parameter in flash
- * 
- * temporary off-code for testing auto-wiring. 
+ * dependencies for Demo site.
  *
- * @param ContainerInterface $c
- * @return JumpController
- * 
-
-$container[JumpController::class] = function(ContainerInterface $c) {
-    return new JumpController($c->get(Responder::class));
-};
-
+ * @param AppBuilder $builder
  */
+return function(AppBuilder $builder) {
+
+    /**
+     * @var App $app
+     */
+    $app = $builder->app;
+    $container = $app->getContainer();
+
+    /**
+     * file upload example
+     *
+     * @param ContainerInterface $c
+     * @return UploadController
+     */
+    $container[UploadController::class] = function(ContainerInterface $c) {
+        return new UploadController($c->get(Responder::class));
+    };
 
 
-/**
- * file upload example
- *
- * @param ContainerInterface $c
- * @return UploadController
- */
-$container[UploadController::class] = function(ContainerInterface $c) {
-    return new UploadController($c->get(Responder::class));
-};
+    /**
+     * FileMap for Document files
+     *
+     * @return DocumentMap
+     */
+    $container[DocumentMap::class] = function() {
+        return DocumentMap::forge(dirname(__DIR__).'/docs', dirname(dirname(__DIR__)).'/vars/markUp');
+    };
 
-
-/**
- * FileMap for Document files
- *
- * @return DocumentMap
- */
-$container[DocumentMap::class] = function() {
-    return DocumentMap::forge(dirname(__DIR__).'/docs', dirname(dirname(__DIR__)).'/vars/markUp');
 };

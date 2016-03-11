@@ -1,22 +1,33 @@
 <?php
 
+use Slim\App;
 use Slim\Csrf\Guard;
+use Tuum\Builder\AppBuilder;
 use Tuum\Respond\Responder;
 use Tuum\Slimmed\TuumStack;
 
-$container = $app->getContainer();
-
 /**
- * C.S.R.F. guardian by Slim. 
- * 
- * @return Guard
+ * @param AppBuilder $builder
  */
-$app->add($container['csrf']);
+return function(AppBuilder $builder) {
 
-/**
- * use Tuum/Responder with Twig as renderer.
- */
-$app->add(
-    new TuumStack($container->get(Responder::class))
-);
+    /** @var App $app */
+    $app = $builder->app;
+    $container = $app->getContainer();
+
+    /**
+     * C.S.R.F. guardian by Slim.
+     *
+     * @return Guard
+     */
+    $app->add($container['csrf']);
+
+    /**
+     * use Tuum/Responder with Twig as renderer.
+     */
+    $app->add(
+        new TuumStack($container->get(Responder::class))
+    );
+
+};
 

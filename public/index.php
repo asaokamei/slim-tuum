@@ -1,6 +1,5 @@
 <?php
 use Slim\App;
-use Tuum\Builder\AppBuilder;
 
 /** @var App $app */
 
@@ -21,8 +20,7 @@ $config = [
 ];
 /** @var callable $script */
 $script = require $root_dir . '/app/app.php';
-$builder = $script($config);
-$app = $builder->app;
+$app    = $script($config);
 
 /**
  * Run the Slim application

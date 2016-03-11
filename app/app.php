@@ -1,7 +1,12 @@
 <?php
+use Slim\App;
 use Tuum\Slimmed\Container;
 use Tuum\Builder\AppBuilder;
 
+/**
+ * @param array $config
+ * @return App
+ */
 return function(array $config) {
 
     $root_dir = dirname(__DIR__);
@@ -16,6 +21,7 @@ return function(array $config) {
      */
     $container = Container::forge();
     $container['twig-dir'] = __DIR__ . '/Demo/twigs';
+    $container['root-dir'] = $root_dir;
     $builder->set('container', $container);
     $builder->configure('service');
 
@@ -31,5 +37,5 @@ return function(array $config) {
     $builder->execute(__DIR__.'/Demo/setting');
     $builder->execute(__DIR__.'/Demo/routes');
 
-    return $builder;
+    return $builder->app;
 };

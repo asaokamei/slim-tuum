@@ -7,31 +7,35 @@ use Tuum\Slimmed\Container;
 use Tuum\Builder\AppBuilder;
 use Tuum\Respond\Responder;
 
-/** @var AppBuilder $builder */
-
 /**
  * settings for Slim's Container.
+ *
+ * @param AppBuilder $builder
  */
+return function(AppBuilder $builder) {
 
-/** @var Container $container */
-$container = $builder->get('container');
+    /** @var Container $container */
+    $container = $builder->get('container');
 
-$container['notFoundHandler'] = new NotFoundFactory();
-$container['csrf'] = new GuardConfig();
-$container[Responder::class] = new ResponderFactory();
+    $container['notFoundHandler'] = new NotFoundFactory();
+    $container['csrf'] = new GuardConfig();
+    $container[Responder::class] = new ResponderFactory();
 
-$setting = [
-    'httpVersion' => '1.1',
-    'responseChunkSize' => 4096,
-    'outputBuffering' => 'append',
-    'determineRouteBeforeAppMiddleware' => false,
-    'displayErrorDetails' => false,
-];
-if ($builder->debug) {
-    $setting['displayErrorDetails'] = true;
-}
+    $setting = [
+        'httpVersion' => '1.1',
+        'responseChunkSize' => 4096,
+        'outputBuffering' => 'append',
+        'determineRouteBeforeAppMiddleware' => false,
+        'displayErrorDetails' => false,
+    ];
+    if ($builder->debug) {
+        $setting['displayErrorDetails'] = true;
+    }
 
-$container['settings'] = $setting;
+    $container['settings'] = $setting;
 
-$defaults = new DefaultServicesProvider();
-$defaults->register($container);
+    $defaults = new DefaultServicesProvider();
+    /** @noinspection PhpParamsInspection */
+    $defaults->register($container);
+
+};

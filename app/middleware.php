@@ -4,7 +4,7 @@ use Slim\App;
 use Slim\Csrf\Guard;
 use Tuum\Builder\AppBuilder;
 use Tuum\Respond\Responder;
-use Tuum\Slimmed\TuumStack;
+use App\Config\Middleware\TuumStack;
 
 /**
  * @param AppBuilder $builder

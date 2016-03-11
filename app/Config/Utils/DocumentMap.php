@@ -1,5 +1,5 @@
 <?php
-namespace Tuum\Slimmed;
+namespace App\Config\Utils;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;

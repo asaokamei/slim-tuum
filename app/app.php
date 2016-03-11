@@ -1,6 +1,6 @@
 <?php
 use Slim\App;
-use Tuum\Slimmed\Container;
+use App\Config\Utils\Container;
 use Tuum\Builder\AppBuilder;
 
 /**

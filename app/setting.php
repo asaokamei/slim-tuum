@@ -3,7 +3,7 @@ use App\Config\Define\GuardConfig;
 use App\Config\Define\NotFoundFactory;
 use App\Config\Define\ResponderFactory;
 use Slim\DefaultServicesProvider;
-use Tuum\Slimmed\Container;
+use App\Config\Utils\Container;
 use Tuum\Builder\AppBuilder;
 use Tuum\Respond\Responder;
 

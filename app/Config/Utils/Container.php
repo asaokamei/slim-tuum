@@ -1,5 +1,5 @@
 <?php
-namespace Tuum\Slimmed;
+namespace App\Config\Utils;
 
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\ContainerException;

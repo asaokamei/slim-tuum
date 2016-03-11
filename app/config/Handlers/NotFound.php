@@ -1,5 +1,5 @@
 <?php
-namespace App\config\Handlers;
+namespace App\Config\Handlers;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

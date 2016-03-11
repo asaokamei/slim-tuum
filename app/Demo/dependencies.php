@@ -11,7 +11,7 @@ use Interop\Container\ContainerInterface;
 use Slim\App;
 use Tuum\Builder\AppBuilder;
 use Tuum\Respond\Responder;
-use Tuum\Slimmed\DocumentMap;
+use App\Config\Utils\DocumentMap;
 
 /**
  * dependencies for Demo site.

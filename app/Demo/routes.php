@@ -10,7 +10,7 @@ use Slim\Http\Response;
 use Tuum\Builder\AppBuilder;
 use Tuum\Respond\Respond;
 use Tuum\Respond\Responder;
-use Tuum\Slimmed\DocumentMap;
+use App\Config\Utils\DocumentMap;
 
 /**
  * routes.

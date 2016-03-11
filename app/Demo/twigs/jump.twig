@@ -4,39 +4,24 @@
 
     <h1>Let's Jump!!</h1>
 
-    {{ viewData.message|raw }}
+    {{ view.message|raw }}
 
     <p>This sample shows how to create a form input and shows the error message from the redirection.</p>
 
     <h3>Sample Form</h3>
 
     <form method="post" action="" class="">
-        <input type="hidden" name="csrf_name" value="{{ csrf_name }}">
-        <input type="hidden" name="csrf_value" value="{{ csrf_value }}">
+        <input type="hidden" name="csrf_name" value="{{ view.attributes('csrf_name') }}">
+        <input type="hidden" name="csrf_value" value="{{ view.attributes('csrf_value') }}">
 
-        <div class="form-group">
+        <div class="form-group{% if view.errors.exists('jumped') %} has-error{% endif %}">
             <label for="text2">extra text</label>
-            <input type="text" name="text2" id="text2" value="{{ viewData.inputs.get('jumped', 'original text') }}"
+            <input type="text" name="text2" id="text2" value="{{ view.inputs.get('jumped', 'original text') }}"
                    class="form-control"/>
-            {{ viewData.errors.p('jumped')|raw }}
+            {{ view.errors.p('jumped')|raw }}
         </div>
 
         <input type="submit" value="jump!" class="btn btn-primary"/>&nbsp;
-        <input type="button" value="clear" onclick="location.href=''" class="btn btn-default"/>
-
-    </form>
-
-    <h3>Form without CSRF Token</h3>
-    
-    The form below does not have CSRF token, i.e. should result in Forbidden error. 
-
-    <form method="post" action="" class="">
-        <div class="form-group">
-            {{ viewData.forms.label('some text:', 'jumped')|raw }}
-            {{ viewData.forms.text('jumped', 'extra text').id().class('form-control')|raw }}
-            {{ viewData.errors.p('jumped')|raw }}
-        </div>
-        <input type="submit" value="should generate forbidden error!" class="btn btn-info"/>&nbsp;
         <input type="button" value="clear" onclick="location.href=''" class="btn btn-default"/>
 
     </form>

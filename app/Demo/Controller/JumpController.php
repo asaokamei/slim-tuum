@@ -29,9 +29,9 @@ class JumpController
      */
     public function onGet(ServerRequestInterface $request, ResponseInterface $response)
     {
+        $viewData = $this->responder->getViewData();
         return $this->responder->view($request, $response)
-            ->withReqAttribute('csrf_name', 'csrf_value')
-            ->asView('jump');
+            ->render('jump', $viewData);
     }
 
     /**
@@ -44,11 +44,12 @@ class JumpController
      */
     public function onPost(ServerRequestInterface $request, ResponseInterface $response)
     {
+        $viewData = $this->responder->getViewData()
+            ->setSuccess('redirected back!')
+            ->setInputData(['jumped' => 'redirected text'])
+            ->setInputErrors(['jumped' => 'redirected error message']);
         return $this->responder->redirect($request, $response)
-            ->withSuccess('redirected back!')
-            ->withInputData(['jumped' => 'redirected text'])
-            ->withInputErrors(['jumped' => 'redirected error message'])
-            ->toPath('jump');
+            ->toPath('jump', $viewData);
     }
 
 }

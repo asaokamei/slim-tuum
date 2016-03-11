@@ -28,6 +28,8 @@
     <ul>
         <li><a href="not-such-file">not found</a></li>
         <li><a href="throw">catch exception</a> </li>
+        <li>forbidden (post without CSRF tokens)
+        <form action="jump" method="post"><input type="submit" value="post w/o token!" class="btn btn-warning btn-xs" /></form></li>
     </ul>
 
 {% endblock %}

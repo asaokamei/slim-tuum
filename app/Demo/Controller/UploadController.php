@@ -2,106 +2,74 @@
 namespace App\Demo\Controller;
 
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
-use Slim\Http\Response;
+use Psr\Http\Message\ServerRequestInterface;
 use Slim\Http\UploadedFile;
-use Tuum\Respond\Respond;
+use Tuum\Respond\Interfaces\PresenterInterface;
 use Tuum\Respond\Responder;
-use Tuum\Respond\Responder\ViewData;
 
 class UploadController
 {
+    /**
+     * @var PresenterInterface
+     */
+    private $viewer;
+
     /**
      * @var Responder
      */
     private $responder;
 
     /**
-     * @param Responder $responder
+     * UploadController constructor.
+     *
+     * @param PresenterInterface $viewer
+     * @param Responder          $responder
      */
-    public function __construct($responder)
+    public function __construct($viewer, $responder)
     {
+        $this->viewer = $viewer;
         $this->responder = $responder;
     }
 
     /**
-     * @param Request  $request
-     * @param Response $response
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface      $response
      * @return ResponseInterface
      */
-    public function __invoke(Request $request, Response $response)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
     {
-        $method = 'on'.$request->getMethod();
+        $method = $request->getMethod() === 'POST' ? 'onPost' : 'onGet';
         return $this->$method($request, $response);
     }
 
     /**
-     * @param Request  $request
-     * @param Response $response
-     * @return ResponseInterface
-     */    
-    private function view(Request $request, Response $response)
-    {
-        return Respond::view($request, $response)
-            ->withReqAttribute('csrf_name', 'csrf_value')
-            ->asView('upload');
-
-    }
-    
-    /**
-     * show upload form.
-     *
-     * @param Request  $request
-     * @param Response $response
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface      $response
      * @return ResponseInterface
      */
-    public function onGet(Request $request, Response $response)
+    public function onGet(ServerRequestInterface $request, ResponseInterface $response)
     {
-        return $this->view($request, $response);
+        $viewData = $this->responder->getViewData();
+        return $this->responder->view($request, $response)
+            ->call($this->viewer, $viewData);
     }
 
     /**
-     * take care the uploaded file.
-     * show the upload form with uploaded file information.
-     *
-     * @param Request  $request
-     * @param Response $response
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface      $response
      * @return ResponseInterface
      */
-    public function onPost(Request $request, Response $response)
+    public function onPost(ServerRequestInterface $request, ResponseInterface $response)
     {
+        /** @var UploadedFile $upload */
         $uploaded = $request->getUploadedFiles();
         $upload   = $uploaded['up'][0];
-
-        $this->checkUploaded($upload);
-        $this->responder = $this->responder->withViewData(
-            function (ViewData $view) use ($uploaded, $upload) {
-                return $view->setData('isUploaded', true)
-                    ->setData('dump', print_r($uploaded, true))
-                    ->setData('upload', $upload);
-            });
-
-        return $this->view($request, $response);
-    }
-
-    /**
-     * @param UploadedFile $upload
-     */
-    private function checkUploaded(UploadedFile $upload)
-    {
-        $this->responder = $this->responder->withViewData(
-            function (ViewData $view) use ($upload) {
-
-                if ($upload->getError() === UPLOAD_ERR_NO_FILE) {
-                    $view->setError('please uploaded a file');
-                } elseif ($upload->getError() === UPLOAD_ERR_FORM_SIZE || $upload->getError() === UPLOAD_ERR_INI_SIZE) {
-                    $view->setError('uploaded file size too large!');
-                } elseif ($upload->getError() !== UPLOAD_ERR_OK) {
-                    $view->setError('uploading failed!');
-                } else {
-                    $view->setSuccess('uploaded a file');
-                }
-                return $view;
-            });
+        $viewData = $this->responder->getViewData()
+            ->setData('isUploaded', true)
+            ->setData('dump', print_r($uploaded, true))
+            ->setData('upload', $upload)
+            ->setData('error_code', $upload->getError());
+        return $this->responder->view($request, $response)
+            ->call([$this->viewer, '__invoke'], $viewData); // callable
     }
 }

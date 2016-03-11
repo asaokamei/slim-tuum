@@ -6,6 +6,7 @@
  * @var Slim\App $app
  */
 use App\Demo\Controller\UploadController;
+use App\Demo\Controller\UploadViewer;
 use Interop\Container\ContainerInterface;
 use Slim\App;
 use Tuum\Builder\AppBuilder;
@@ -31,8 +32,11 @@ return function(AppBuilder $builder) {
      * @param ContainerInterface $c
      * @return UploadController
      */
+    $container[UploadViewer::class] = function(ContainerInterface $c) {
+        return new UploadViewer($c->get(Responder::class));
+    };
     $container[UploadController::class] = function(ContainerInterface $c) {
-        return new UploadController($c->get(Responder::class));
+        return new UploadController($c->get(UploadViewer::class), $c->get(Responder::class));
     };
 
 

@@ -17,6 +17,7 @@ class ResponderFactory
     {
         $stream    = TwigViewer::forge($c->get('twig-dir'), [
             'cache' => $c->get('root-dir').'/vars/twigs',
+            'auto_reload' => true,
         ]);
         $errors    = ErrorView::forge($stream, [
             'default' => 'errors/error',

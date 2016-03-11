@@ -4,21 +4,21 @@
 
     <h1>File Upload</h1>
 
-    {{ viewData.message|raw }}
+    {{ view.message|raw }}
 
     <h2>Upload Form</h2>
 
     <p>please upload any file less than 512 byte. </p>
 
     <form method="post" action="" enctype="multipart/form-data">
-        <input type="hidden" name="csrf_name" value="{{ csrf_name }}">
-        <input type="hidden" name="csrf_value" value="{{ csrf_value }}">
+        <input type="hidden" name="csrf_name" value="{{ view.attributes('csrf_name') }}">
+        <input type="hidden" name="csrf_value" value="{{ view.attributes('csrf_value') }}">
         <input type="hidden" name="MAX_FILE_SIZE" value="512">
 
         <div class="form-group">
 
-            {{ viewData.forms.label('file to upload', 'up')|raw }}
-            {{ viewData.forms.file('up[0]').class('form-control').id('up').width('70%')|raw }}
+            {{ view.forms.label('file to upload', 'up')|raw }}
+            {{ view.forms.file('up[0]').class('form-control').id('up').width('70%')|raw }}
 
         </div>
 

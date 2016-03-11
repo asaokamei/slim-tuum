@@ -1,14 +1,12 @@
 <?php
 namespace App\Config\Utils;
 
-use Pimple\Container;
-use Pimple\ServiceProviderInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Tuum\Locator\FileMap;
 use Tuum\Respond\Respond;
 
-class DocumentMap implements ServiceProviderInterface
+class DocumentMap
 {
     /**
      * @var FileMap
@@ -50,18 +48,5 @@ class DocumentMap implements ServiceProviderInterface
             return Respond::view($request, $response)->asFileContents($fp, $info->getMimeType());
         }
         return Respond::view($request, $response)->asContents($info->getContents());
-    }
-
-    /**
-     * Registers services on the given container.
-     *
-     * This method should only be used to configure services and parameters.
-     * It should not get services.
-     *
-     * @param Container $pimple A container instance
-     */
-    public function register(Container $pimple)
-    {
-        $pimple[self::class] = $this;
     }
 }

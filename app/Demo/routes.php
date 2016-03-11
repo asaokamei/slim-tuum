@@ -30,7 +30,7 @@ return function(AppBuilder $builder) {
      * top page
      */
     $app->get('/', function (ServerRequestInterface $request, ResponseInterface $response) {
-        return Respond::view($request, $response)->asView('index');
+        return Respond::view($request, $response)->render('index');
     });
 
     /**

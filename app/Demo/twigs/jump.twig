@@ -16,7 +16,7 @@
 
         <div class="form-group{% if view.errors.exists('jumped') %} has-error{% endif %}">
             <label for="text2">extra text</label>
-            <input type="text" name="text2" id="text2" value="{{ view.inputs.get('jumped', 'original text') }}"
+            <input type="text" name="jumped" id="jumped" value="{{ view.inputs.raw('jumped', 'original text') }}"
                    class="form-control"/>
             {{ view.errors.p('jumped')|raw }}
         </div>

@@ -46,7 +46,7 @@ class JumpController
     {
         $viewData = $this->responder->getViewData()
             ->setSuccess('redirected back!')
-            ->setInputData(['jumped' => 'redirected text'])
+            ->setInputData($request->getParsedBody())
             ->setInputErrors(['jumped' => 'redirected error message']);
         return $this->responder->redirect($request, $response)
             ->toPath('jump', $viewData);

@@ -1,11 +1,11 @@
 <?php
 namespace tests\App;
 
-use App\Config\Utils\UnitTestsTrait;
+use App\Config\Utils\UnitTestsAppTrait;
 
 class AppTest extends \PHPUnit_Framework_TestCase
 {
-    use UnitTestsTrait;
+    use UnitTestsAppTrait;
 
     function setup()
     {

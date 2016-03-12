@@ -1,7 +1,6 @@
 <?php
 namespace App\Config\Utils;
 
-use Slim\App;
 use Slim\Http\Body;
 use Slim\Http\Environment;
 use Slim\Http\Headers;
@@ -21,11 +20,6 @@ trait UnitTestsTrait
      */
     protected $app_config = [];
     
-    /**
-     * @var App
-     */
-    protected $app;
-
     /**
      * @var Request
      */
@@ -86,41 +80,6 @@ trait UnitTestsTrait
     }
 
     /**
-     * run application with GET method. 
-     * 
-     * @param string $path
-     * @param array  $query
-     */
-    protected function runGet($path = '', $query = [])
-    {
-        if (!empty($query)) {
-            $path .= '?' . http_build_query($query);
-        }
-        $uri = Uri::createFromString($this->root_url . $path);
-        $this->runApp('GET', $uri);
-    }
-
-    /**
-     * run application with POST method.
-     * adds C.S.R.F. token if $post is set. 
-     * 
-     * @param string $path
-     * @param array  $post
-     */
-    protected function runPost($path = '', $post = [])
-    {
-        if (!empty($post)) { // add csrf tokens.
-            $key = 'unit-csrf';
-            $val = 'unit-csrf-value';
-            $_SESSION['csrf'][$key] = $val;
-            $post['csrf_name'] = $key;
-            $post['csrf_value'] = $val;
-        }
-        $uri = Uri::createFromString($this->root_url . $path);
-        $this->runApp('POST', $uri, $post);
-    }
-
-    /**
      * assert that the response body contains $text.
      * 
      * @param string $text
@@ -174,22 +133,5 @@ trait UnitTestsTrait
             $parsed->setValue($this->request, $post);
         }
         $this->response = new Response;
-        
-        $this->app->getContainer()['request'] = $this->request;
-        $this->app->getContainer()['response'] = $this->response;
-    }
-
-    /**
-     * @param String $method
-     * @param Uri   $uri
-     * @param array $post
-     */
-    protected function runApp($method, $uri, $post = [])
-    {
-        $this->buildApp();
-        $this->buildRequest($method, $uri, $post);
-        $this->response = $this->app->run(true);
-        $this->response->getBody()->rewind();
-        $this->html = $this->response->getBody()->getContents();
     }
 }

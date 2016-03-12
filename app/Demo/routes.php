@@ -34,6 +34,14 @@ return function(AppBuilder $builder) {
     });
 
     /**
+     * 
+     */
+    $app->get('/info', function () {
+        phpinfo();
+        exit;
+    });
+
+    /**
      * check asContents
      */
     $app->get('/content', function(Request $request, Response $response) {

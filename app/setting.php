@@ -11,12 +11,12 @@ use Tuum\Respond\Responder;
  * settings for Slim's Container.
  *
  * @param AppBuilder $builder
+ * @return Container
  */
 return function(AppBuilder $builder) {
 
     /** @var Container $container */
     $container = Container::forge();
-    $builder->set('container', $container);
 
     $container['notFoundHandler'] = new NotFoundFactory();
     $container['csrf'] = new GuardConfig();
@@ -39,4 +39,5 @@ return function(AppBuilder $builder) {
     /** @noinspection PhpParamsInspection */
     $defaults->register($container);
 
+    return $container;
 };

@@ -18,13 +18,14 @@ return function(array $config) {
 
     /**
      * container settings.
+     * @var Container $container
      */
-    $builder->configure('setting');
+    $container = $builder->configure('setting');
 
     /**
      * build Slim application for Demo.
      */
-    $builder->app = new Slim\App($builder->get('container'));
+    $builder->app = new Slim\App($container);
     $builder->configure('middleware');
 
     /**

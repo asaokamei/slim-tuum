@@ -15,7 +15,8 @@ use Tuum\Respond\Responder;
 return function(AppBuilder $builder) {
 
     /** @var Container $container */
-    $container = $builder->get('container');
+    $container = Container::forge();
+    $builder->set('container', $container);
 
     $container['notFoundHandler'] = new NotFoundFactory();
     $container['csrf'] = new GuardConfig();
@@ -27,7 +28,7 @@ return function(AppBuilder $builder) {
         'outputBuffering' => 'append',
         'determineRouteBeforeAppMiddleware' => false,
         'displayErrorDetails' => false,
-    ];
+    ] + $builder->get('options');
     if ($builder->debug) {
         $setting['displayErrorDetails'] = true;
     }

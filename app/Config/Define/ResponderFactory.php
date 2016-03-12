@@ -15,8 +15,9 @@ class ResponderFactory
      */
     public function __invoke(ContainerInterface $c)
     {
-        $stream    = TwigViewer::forge($c->get('twig-dir'), [
-            'cache' => $c->get('root-dir').'/vars/twigs',
+        $setting   = $c->get('settings');
+        $stream    = TwigViewer::forge($setting['app-dir'].'/Demo/twigs', [
+            'cache' => $setting['var-dir'].'/twigs',
             'auto_reload' => true,
         ]);
         $errors    = ErrorView::forge($stream, [

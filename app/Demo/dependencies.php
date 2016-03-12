@@ -45,8 +45,8 @@ return function(AppBuilder $builder) {
      *
      * @return DocumentMap
      */
-    $container[DocumentMap::class] = function() {
-        return DocumentMap::forge(dirname(__DIR__).'/docs', dirname(dirname(__DIR__)).'/vars/markUp');
+    $container[DocumentMap::class] = function() use($builder){
+        return DocumentMap::forge($builder->app_dir.'/docs', $builder->var_dir.'/markUp');
     };
 
 };

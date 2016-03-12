@@ -19,16 +19,12 @@ return function(array $config) {
     /**
      * container settings.
      */
-    $container = Container::forge();
-    $container['twig-dir'] = __DIR__ . '/Demo/twigs';
-    $container['root-dir'] = $root_dir;
-    $builder->set('container', $container);
     $builder->configure('setting');
 
     /**
      * build Slim application for Demo.
      */
-    $builder->app = new Slim\App($container);
+    $builder->app = new Slim\App($builder->get('container'));
     $builder->configure('middleware');
 
     /**

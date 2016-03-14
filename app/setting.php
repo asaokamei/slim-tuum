@@ -13,22 +13,22 @@ use Tuum\Respond\Responder;
  * @param AppBuilder $builder
  * @return Container
  */
-return function(AppBuilder $builder) {
+return function (AppBuilder $builder) {
 
     /** @var Container $container */
     $container = Container::forge();
 
     $container['notFoundHandler'] = new NotFoundFactory();
-    $container['csrf'] = new GuardConfig();
-    $container[Responder::class] = new ResponderFactory();
+    $container['csrf']            = new GuardConfig();
+    $container[Responder::class]  = new ResponderFactory();
 
     $setting = [
-        'httpVersion' => '1.1',
-        'responseChunkSize' => 4096,
-        'outputBuffering' => 'append',
-        'determineRouteBeforeAppMiddleware' => false,
-        'displayErrorDetails' => false,
-    ] + $builder->get('options');
+            'httpVersion'                       => '1.1',
+            'responseChunkSize'                 => 4096,
+            'outputBuffering'                   => 'append',
+            'determineRouteBeforeAppMiddleware' => false,
+            'displayErrorDetails'               => false,
+        ] + $builder->get('options');
     if ($builder->debug) {
         $setting['displayErrorDetails'] = true;
     }

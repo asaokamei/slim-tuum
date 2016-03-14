@@ -1,8 +1,9 @@
 <?php
 use App\Config\Define\GuardConfig;
 use App\Config\Define\LoggerFactory;
-use App\Config\Define\NotFoundFactory;
 use App\Config\Define\ResponderFactory;
+use App\Config\Handlers\ErrorHandler;
+use App\Config\Handlers\NotFoundHandler;
 use Psr\Log\LoggerInterface;
 use Slim\DefaultServicesProvider;
 use App\Config\Utils\Container;
@@ -20,7 +21,8 @@ return function (AppBuilder $builder) {
     /** @var Container $container */
     $container = Container::forge();
 
-    $container['notFoundHandler'] = new NotFoundFactory();
+    $container['notFoundHandler'] = new NotFoundHandler();
+    $container['errorHandler']    = new ErrorHandler();
     $container['csrf']            = new GuardConfig();
     $container[Responder::class]  = new ResponderFactory();
     $container[LoggerInterface::class] = new LoggerFactory($builder);

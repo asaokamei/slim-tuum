@@ -1,12 +1,13 @@
 <?php
-namespace App\Config\Define;
+namespace App\Config\Handlers;
 
+use Exception;
 use Interop\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Tuum\Respond\Responder;
 
-class NotFoundFactory
+class ErrorHandler
 {
     /**
      * @var Responder
@@ -20,16 +21,18 @@ class NotFoundFactory
     public function __invoke(ContainerInterface $c)
     {
         $this->responder = $c->get(Responder::class);
-        return [$this, 'notFound'];
+        return [$this, 'error'];
     }
 
     /**
      * @param ServerRequestInterface $req
      * @param ResponseInterface      $res
+     * @param Exception              $e
      * @return ResponseInterface
      */
-    public function notFound(ServerRequestInterface $req, ResponseInterface $res)
+    public function error(ServerRequestInterface $req, ResponseInterface $res, $e)
     {
-        return $this->responder->error($req, $res)->notFound();
+        $viewData = $this->responder->getViewData()->setError('Error.'.$e->getMessage());
+        return $this->responder->error($req, $res)->asView(501, $viewData);
     }
 }

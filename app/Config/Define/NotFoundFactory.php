@@ -9,14 +9,27 @@ use Tuum\Respond\Responder;
 class NotFoundFactory
 {
     /**
+     * @var Responder
+     */
+    private $responder;
+
+    /**
      * @param ContainerInterface $c
-     * @return \Closure
+     * @return callable
      */
     public function __invoke(ContainerInterface $c)
     {
-        $responder = $c->get(Responder::class);
-        return function (ServerRequestInterface $req, ResponseInterface $res) use($responder) {
-            return $responder->error($req, $res)->notFound();
-        };
+        $this->responder = $c->get(Responder::class);
+        return [$this, 'notFound'];
+    }
+
+    /**
+     * @param ServerRequestInterface $req
+     * @param ResponseInterface      $res
+     * @return ResponseInterface
+     */
+    public function notFound(ServerRequestInterface $req, ResponseInterface $res)
+    {
+        return $this->responder->error($req, $res)->notFound();
     }
 }

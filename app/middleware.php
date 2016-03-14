@@ -1,5 +1,7 @@
 <?php
 
+use App\Config\Middleware\AccessLog;
+use Psr\Log\LoggerInterface;
 use Slim\App;
 use Slim\Csrf\Guard;
 use Tuum\Builder\AppBuilder;
@@ -29,5 +31,8 @@ return function(AppBuilder $builder) {
         new TuumStack($container->get(Responder::class))
     );
 
+    $app->add(
+        new AccessLog($container->get(LoggerInterface::class))
+    );
 };
 

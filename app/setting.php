@@ -1,7 +1,9 @@
 <?php
 use App\Config\Define\GuardConfig;
+use App\Config\Define\LoggerFactory;
 use App\Config\Define\NotFoundFactory;
 use App\Config\Define\ResponderFactory;
+use Psr\Log\LoggerInterface;
 use Slim\DefaultServicesProvider;
 use App\Config\Utils\Container;
 use Tuum\Builder\AppBuilder;
@@ -21,6 +23,7 @@ return function (AppBuilder $builder) {
     $container['notFoundHandler'] = new NotFoundFactory();
     $container['csrf']            = new GuardConfig();
     $container[Responder::class]  = new ResponderFactory();
+    $container[LoggerInterface::class] = new LoggerFactory($builder);
 
     $setting = [
             'httpVersion'                       => '1.1',

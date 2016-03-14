@@ -34,6 +34,7 @@ class LoggerFactory
         $logger = new Logger('App');
         $logger->pushProcessor(new UidProcessor());
         $logger->pushHandler(new StreamHandler($var_dir.'/logs/app.log', Logger::DEBUG));
+        $logger->pushHandler(new StreamHandler($var_dir.'/logs/app-error.log', Logger::ERROR));
         return $logger;
     }
 }

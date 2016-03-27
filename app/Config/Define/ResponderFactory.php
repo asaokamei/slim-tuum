@@ -13,7 +13,7 @@ class ResponderFactory
      * @param ContainerInterface $c
      * @return \Tuum\Respond\Responder
      */
-    public function __invoke(ContainerInterface $c)
+    public static function forge(ContainerInterface $c)
     {
         $setting   = $c->get('settings');
         $stream    = TwigViewer::forge($setting['app-dir'].'/Demo/twigs', [

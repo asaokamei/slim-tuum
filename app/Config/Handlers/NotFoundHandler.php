@@ -15,12 +15,10 @@ class NotFoundHandler
 
     /**
      * @param ContainerInterface $c
-     * @return callable
      */
-    public function __invoke(ContainerInterface $c)
+    public function __construct(ContainerInterface $c)
     {
         $this->responder = $c->get(Responder::class);
-        return [$this, 'notFound'];
     }
 
     /**
@@ -28,7 +26,7 @@ class NotFoundHandler
      * @param ResponseInterface      $res
      * @return ResponseInterface
      */
-    public function notFound(ServerRequestInterface $req, ResponseInterface $res)
+    public function __invoke(ServerRequestInterface $req, ResponseInterface $res)
     {
         return $this->responder->error($req, $res)->notFound();
     }

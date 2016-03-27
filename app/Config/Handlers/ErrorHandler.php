@@ -16,12 +16,10 @@ class ErrorHandler
 
     /**
      * @param ContainerInterface $c
-     * @return callable
      */
-    public function __invoke(ContainerInterface $c)
+    public function __construct(ContainerInterface $c)
     {
         $this->responder = $c->get(Responder::class);
-        return [$this, 'error'];
     }
 
     /**
@@ -30,7 +28,7 @@ class ErrorHandler
      * @param Exception              $e
      * @return ResponseInterface
      */
-    public function error(ServerRequestInterface $req, ResponseInterface $res, $e)
+    public function __invoke(ServerRequestInterface $req, ResponseInterface $res, $e)
     {
         $viewData = $this->responder->getViewData()->setError('Error.'.$e->getMessage());
         return $this->responder->error($req, $res)->asView(501, $viewData);

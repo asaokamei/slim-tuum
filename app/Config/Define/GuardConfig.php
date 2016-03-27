@@ -19,11 +19,12 @@ class GuardConfig
      * @param ContainerInterface $c
      * @return Guard
      */
-    public function __invoke(ContainerInterface $c)
+    public static function forge(ContainerInterface $c)
     {
-        $this->responder = $c->get(Responder::class);
+        $self = new self;
+        $self->responder = $c->get(Responder::class);
         $guard = new Guard();
-        $guard->setFailureCallable([$this, 'forbidden']);
+        $guard->setFailureCallable([$self, 'forbidden']);
         return $guard;
     }
 

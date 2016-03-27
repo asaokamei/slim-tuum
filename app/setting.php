@@ -21,10 +21,10 @@ return function (AppBuilder $builder) {
     /** @var Container $container */
     $container = Container::forge();
 
-    $container['notFoundHandler'] = new NotFoundHandler();
-    $container['errorHandler']    = new ErrorHandler();
-    $container['csrf']            = new GuardConfig();
-    $container[Responder::class]  = new ResponderFactory();
+    $container['notFoundHandler']      = function ($c) {return new NotFoundHandler($c);};
+    $container['errorHandler']         = function ($c) {return new ErrorHandler($c);};
+    $container['csrf']                 = function ($c) {return GuardConfig::forge($c);};
+    $container[Responder::class]       = function ($c) {return ResponderFactory::forge($c);};
     $container[LoggerInterface::class] = new LoggerFactory($builder);
 
     $setting = [

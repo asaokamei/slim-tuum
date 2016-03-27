@@ -20,7 +20,7 @@ return function(array $config) {
      * container settings.
      * @var Container $container
      */
-    $container = $builder->configure('setting');
+    $container = $builder->configure('container');
 
     /**
      * build Slim application for Demo.

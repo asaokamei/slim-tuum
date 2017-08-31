@@ -11,18 +11,17 @@
     "minimum-stability": "dev",
     "require": {
         "slim/slim": "^3.0",
-        "slim/csrf": "~0.1",
-        "tuum/respond": "^1.0",
+        "tuum/respond": "dev-3.x-dev",
         "tuum/filemap": "^1.0",
-        "tuum/builder":"^1.0",
-        "twig/twig": "^1.0",
-        "league/container":"^2.0",
-        "monolog/monolog": " ^1.0"
+        "tuum/builder":"^0.2.0",
+        "monolog/monolog": " ^1.0",
+        "league/plates": "^3.3",
+        "twig/twig": "^2.4"
     },
     "autoload": {
         "psr-4": {
-            "Tuum\\Slimmed\\": "src/",
-            "App\\": "app/"
+            "App\\": "app/",
+            "Demo\\":"app-demo/"
         }
     }
 }

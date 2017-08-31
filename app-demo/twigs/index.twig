@@ -1,0 +1,36 @@
+{% extends "layouts/layout.twig" %}
+
+{% block content %}
+
+    <h1>Slim 3 + Tuum/Respond</h1>
+
+    <p>Tuum/Respond responder module sample with Slim 3 Framework.</p>
+    <p>This is a package to turn a micro-framework into ordinary framework for ordinary web site :P</p>
+
+    <h3>redirect with messages sample</h3>
+    <ul>
+        <li><a href="jump">jump!!!</a></li>
+    </ul>
+
+    <h3>file upload sample</h3>
+    <ul>
+        <li><a href="upload">upload!!!</a></li>
+    </ul>
+
+    <h3>content and file-map</h3>
+    <ul>
+        <li><a href="content">simple content</a> returned by a closure.</li>
+        <li><a href="docs/index">documents</a> using FileMap.</li>
+        <li><a href="info" >php info</a></li>
+    </ul>
+
+    <h3>error samples</h3>
+
+    <ul>
+        <li><a href="not-such-file">not found</a></li>
+        <li><a href="throw">catch exception</a> </li>
+        <li>forbidden (post without CSRF tokens)
+        <form action="jump" method="post"><input type="submit" value="post w/o token!" class="btn btn-warning btn-xs" /></form></li>
+    </ul>
+
+{% endblock %}

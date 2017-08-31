@@ -6,9 +6,7 @@ use Tuum\Respond\Responder;
 
 // Routes
 $app->get('/', function ($request, $response, $args) {
-    /** @var Responder $responder */
-    $responder = $this->get(Responder::class);
-    return $responder->view($request, $response)->render('index', $args);
+    return $this->responder->view($request, $response)->render('index', $args);
 });
 
 $app->get('/critical', function ($request, $response, $args) {

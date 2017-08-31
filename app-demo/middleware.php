@@ -2,6 +2,7 @@
 use Monolog\Logger;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\App;
+use Tuum\Respond\Respond;
 
 /** @var App $app */
 
@@ -24,6 +25,6 @@ $app->add(function(ServerRequestInterface $req, $res, $next) {
             'trace' => $e->getTraceAsString(),
         ];
         $log->critical($message, $context);
+        return $this->responder->error($req, $res)->asView($e->getCode());
     }
-    return $res;
 });

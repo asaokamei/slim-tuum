@@ -1,5 +1,6 @@
 <?php
 
+use Demo\Controller\DocumentMap;
 use Demo\Controller\JumpController;
 use Demo\Controller\UploadController;
 use Demo\Controller\UploadViewer;
@@ -74,4 +75,12 @@ $container[UploadViewer::class] = function (ContainerInterface $container) {
 
 $container[RespondMiddleware::class] = function (ContainerInterface $container) {
     return new RespondMiddleware($container->get('responder'));
+};
+
+$container[DocumentMap::class] = function (ContainerInterface $container) use($builder) {
+    return DocumentMap::forge(
+        $container->get('responder'), 
+        __DIR__ . '/templates/docs', 
+        $builder->getVarDir() . '/md'
+        );
 };

@@ -9,8 +9,7 @@
     <p>please upload any file less than 2048 byte. </p>
 
     <form method="post" action="" enctype="multipart/form-data">
-        <input type="hidden" name="csrf_name" value="{{ view.attributes('csrf_name') }}">
-        <input type="hidden" name="csrf_value" value="{{ view.attributes('csrf_value') }}">
+        <input type="hidden" name="_token" value="{{ view.attributes('_token') }}">
         <input type="hidden" name="MAX_FILE_SIZE" value="2048">
 
         <div class="form-group">

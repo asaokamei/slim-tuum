@@ -9,8 +9,7 @@
     <h3>Sample Form</h3>
 
     <form method="post" action="" class="">
-        <input type="hidden" name="csrf_name" value="{{ view.attributes('csrf_name') }}">
-        <input type="hidden" name="csrf_value" value="{{ view.attributes('csrf_value') }}">
+        <input type="hidden" name="_token" value="{{ view.attributes('_token') }}">
 
         <div class="form-group{% if view.errors.exists('jumped') %} has-error{% endif %}">
             <label for="jumped">extra text</label>

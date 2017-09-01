@@ -1,5 +1,4 @@
 <?php
-
 use Tuum\Builder\Builder;
 
 $builder = Builder::forge(__DIR__, dirname(__DIR__) . '/var', true);

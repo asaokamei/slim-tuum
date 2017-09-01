@@ -8,7 +8,7 @@ use Tuum\Respond\Controller\DispatchByMethodTrait;
 use Tuum\Respond\Interfaces\PresenterInterface;
 use Tuum\Respond\Responder;
 
-class UploadController
+class UploadController implements ControllerInterface
 {
     use DispatchByMethodTrait;
 
@@ -19,19 +19,16 @@ class UploadController
      */
     public function __construct($responder)
     {
-        $this->responder = $responder;
+        $this->setResponder($responder);
     }
 
     /**
      * @param ServerRequestInterface $request
      * @param ResponseInterface      $response
-     * @param array                  $args
      * @return null|ResponseInterface
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $args)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
     {
-        $args   += $request->getQueryParams();
-        $request = $request->withQueryParams($args);
         return $this->dispatch($request, $response);
     }
     

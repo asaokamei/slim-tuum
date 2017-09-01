@@ -1,4 +1,6 @@
 <?php
+use Demo\Handler\FoundHandler;
+
 return [
     'settings' => [
         'displayErrorDetails' => true, // set to false in production
@@ -14,4 +16,5 @@ return [
             'level' => \Monolog\Logger::DEBUG,
         ],
     ],
+    'foundHandler' => function() {return new FoundHandler();},
 ];

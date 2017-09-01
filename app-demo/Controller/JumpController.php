@@ -6,7 +6,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Tuum\Respond\Controller\DispatchByMethodTrait;
 use Tuum\Respond\Responder;
 
-class JumpController
+class JumpController implements ControllerInterface
 {
     use DispatchByMethodTrait;
     
@@ -21,13 +21,10 @@ class JumpController
     /**
      * @param ServerRequestInterface $request
      * @param ResponseInterface      $response
-     * @param array                  $args
      * @return null|ResponseInterface
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $args)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
     {
-        $args   += $request->getQueryParams();
-        $request = $request->withQueryParams($args);
         return $this->dispatch($request, $response);
     }
 

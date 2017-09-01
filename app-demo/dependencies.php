@@ -1,4 +1,8 @@
 <?php
+
+use Demo\Controller\JumpController;
+use Demo\Controller\UploadController;
+use Demo\Controller\UploadViewer;
 use Psr\Container\ContainerInterface;
 use Slim\App;
 use Tuum\Builder\Builder;
@@ -15,11 +19,12 @@ $container = $app->getContainer();
  * @return Tuum\Respond\Responder
  */
 $container['responder'] = function (ContainerInterface $container) use($builder) {
+    $settings = $container->get('settings')['renderer'];
     $b = new Tuum\Respond\Builder('slim3-demo');
     $b->setRenderer(
         new Tuum\Respond\Service\Renderer\Twig(
             new Twig_Environment(
-                new Twig_Loader_Filesystem($builder->getAppDir() . '/twigs'), [
+                new Twig_Loader_Filesystem($settings['template_path'] . '/twigs'), [
                 $builder->getVarDir() . '/twigs',
             ])
         )
@@ -54,3 +59,14 @@ $container['logger'] = function (ContainerInterface $c) {
     return $logger;
 };
 
+$container[JumpController::class] = function (ContainerInterface $container) {
+    return new JumpController($container->get('responder'));
+};
+
+$container[UploadController::class] = function (ContainerInterface $container) {
+    return new UploadController($container->get('responder'));
+};
+
+$container[UploadViewer::class] = function (ContainerInterface $container) {
+    return new UploadViewer($container->get('responder'));
+};

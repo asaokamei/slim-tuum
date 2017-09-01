@@ -13,7 +13,7 @@ $app->get('/', function (ServerRequestInterface $request, $response, $args) {
     return $this->responder->view($request, $response)->render('index', $args);
 });
 
-$app->get('/critical', function ($request, $response, $args) {
+$app->get('/throw', function ($request, $response, $args) {
     throw new \BadMethodCallException('always throws an exception');
 });
 

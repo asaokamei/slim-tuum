@@ -1,12 +1,12 @@
 <?php
-use Demo\Handler\CsRfMiddleware;
+use Demo\Handler\RespondMiddleware;
 use Monolog\Logger;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\App;
 
 /** @var App $app */
 
-$app->add(CsRfMiddleware::class);
+$app->add(RespondMiddleware::class);
 
 /**
  * logging and catching exceptions.

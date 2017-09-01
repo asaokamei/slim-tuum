@@ -7,6 +7,9 @@ if (PHP_SAPI == 'cli-server') {
     if (is_file($file)) {
         return false;
     }
+    if (preg_match('/favicon.ico$/', $file)) {
+        return false;
+    }
 }
 require __DIR__ . '/../vendor/autoload.php';
 session_start();

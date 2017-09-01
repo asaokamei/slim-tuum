@@ -1,5 +1,7 @@
 <?php
 use Demo\Handler\FoundHandler;
+use Demo\Handler\NotFoundHandler;
+use Psr\Container\ContainerInterface;
 
 return [
     'settings' => [
@@ -17,4 +19,5 @@ return [
         ],
     ],
     'foundHandler' => function() {return new FoundHandler();},
+    'notFoundHandler' => function (ContainerInterface $c) {return new NotFoundHandler($c->get('responder'));}
 ];

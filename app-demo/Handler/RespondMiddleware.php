@@ -5,7 +5,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Tuum\Respond\Responder;
 
-class CsRfMiddleware
+class RespondMiddleware
 {
     const CSRF_TOKEN = '_token';
     
@@ -32,10 +32,29 @@ class CsRfMiddleware
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, $next)
     {
+        try {
+            $response = $this->validateCsRfToken($request, $response, $next);
+            if (!$response) {
+                return $this->responder->error($request, $response)->notFound();
+            }
+            return $response;
+        } catch (\Exception $e) {
+            return $this->responder->error($request, $response)->asView($e->getCode());
+        }
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface      $response
+     * @param callable               $next
+     * @return ResponseInterface
+     */
+    private function validateCsRfToken(ServerRequestInterface $request, ResponseInterface $response, $next)
+    {
         // set CSRF token as request's attribute. 
         $session = $this->responder->session();
         $request = $request->withAttribute(self::CSRF_TOKEN, $session->getToken());
-        
+
         if ($request->getMethod() !== 'POST') {
             return $next($request, $response);
         }

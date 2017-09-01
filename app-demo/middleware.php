@@ -1,10 +1,12 @@
 <?php
+use Demo\Handler\CsRfMiddleware;
 use Monolog\Logger;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\App;
-use Tuum\Respond\Respond;
 
 /** @var App $app */
+
+$app->add(CsRfMiddleware::class);
 
 /**
  * logging and catching exceptions.

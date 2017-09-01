@@ -3,6 +3,7 @@
 use Demo\Controller\JumpController;
 use Demo\Controller\UploadController;
 use Demo\Controller\UploadViewer;
+use Demo\Handler\CsRfMiddleware;
 use Psr\Container\ContainerInterface;
 use Slim\App;
 use Tuum\Builder\Builder;
@@ -69,4 +70,8 @@ $container[UploadController::class] = function (ContainerInterface $container) {
 
 $container[UploadViewer::class] = function (ContainerInterface $container) {
     return new UploadViewer($container->get('responder'));
+};
+
+$container[CsRfMiddleware::class] = function (ContainerInterface $container) {
+    return new CsRfMiddleware($container->get('responder'));
 };

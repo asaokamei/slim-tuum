@@ -1,31 +1,21 @@
 <?php
-use Slim\App;
-
-/** @var App $app */
-
-$root_dir = dirname(__DIR__);
-
-/**
- * composer's auto-loader
- */
-require_once $root_dir . '/vendor/autoload.php';
-
-/**
- * build Slim3 application
- */
+if (PHP_SAPI == 'cli-server') {
+    // To help the built-in PHP dev server, check if the request was actually for
+    // something which should probably be served as a static file
+    $url  = parse_url($_SERVER['REQUEST_URI']);
+    $file = __DIR__ . $url['path'];
+    if (is_file($file)) {
+        return false;
+    }
+    if (preg_match('/favicon.ico$/', $file)) {
+        return false;
+    }
+}
+require __DIR__ . '/../vendor/autoload.php';
 session_start();
-$config = [
-    'env-file' => 'env',
-    'debug'    => true,
-];
-/** @var callable $script */
-$script = require $root_dir . '/app/app.php';
-$app    = $script($config);
 
-/**
- * Run the Slim application
- *
- * This method should be called last. This executes the Slim application
- * and returns the HTTP response to the HTTP client.
- */
+// Instantiate the app
+$app = require __DIR__ . '/../app/app.php';
+
+// Run app
 $app->run();

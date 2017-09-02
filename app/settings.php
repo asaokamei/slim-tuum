@@ -13,11 +13,9 @@ return [
         ],
         // Monolog settings
         'logger' => [
-            'name' => 'demo',
+            'name' => 'app',
             'path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../var/logs/app.log',
             'level' => \Monolog\Logger::DEBUG,
         ],
     ],
-    'foundHandler' => function() {return new FoundHandler();},
-    'notFoundHandler' => function (ContainerInterface $c) {return new NotFoundHandler($c->get('responder'));}
 ];

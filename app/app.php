@@ -1,38 +1,13 @@
 <?php
-use Slim\App;
-use App\Config\Utils\Container;
-use Tuum\Builder\AppBuilder;
+use Tuum\Builder\Builder;
 
-/**
- * @param array $config
- * @return App
- */
-return function(array $config) {
+$builder = Builder::forge(__DIR__, dirname(__DIR__) . '/var', true);
+$settings = $builder->load('settings');
+$app = new \Slim\App($settings);
+$builder->set('app', $app);
 
-    $root_dir = dirname(__DIR__);
-    $builder = AppBuilder::forge(
-        $root_dir.'/app',
-        $root_dir.'/var',
-        $config
-    );
+$builder->load('dependencies');
+$builder->load('middleware');
+$builder->load('routes');
 
-    /**
-     * container settings.
-     * @var Container $container
-     */
-    $container = $builder->configure('container');
-
-    /**
-     * build Slim application for Demo.
-     */
-    $builder->app = new Slim\App($container);
-    $builder->configure('middleware');
-
-    /**
-     * import routes
-     */
-    $builder->execute(__DIR__.'/Demo/dependencies');
-    $builder->execute(__DIR__.'/Demo/routes');
-
-    return $builder->app;
-};
+return $app;

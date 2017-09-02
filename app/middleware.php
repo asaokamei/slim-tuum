@@ -1,38 +1,30 @@
 <?php
-
-use App\Config\Middleware\AccessLog;
-use Psr\Log\LoggerInterface;
+use Demo\Handler\RespondMiddleware;
+use Monolog\Logger;
+use Psr\Http\Message\ServerRequestInterface;
 use Slim\App;
-use Slim\Csrf\Guard;
-use Tuum\Builder\AppBuilder;
-use Tuum\Respond\Responder;
-use App\Config\Middleware\TuumStack;
+
+/** @var App $app */
 
 /**
- * @param AppBuilder $builder
+ * logging and catching exceptions.
  */
-return function(AppBuilder $builder) {
+$app->add(function(ServerRequestInterface $req, $res, $next) {
+    try {
+        /** @var Logger $log */
+        $log = $this->logger;
+        $log->info("{$req->getMethod()} {$req->getUri()->getPath()}");
+        return $next($req, $res);
 
-    /** @var App $app */
-    $app = $builder->app;
-    $container = $app->getContainer();
+    } catch (\Exception $e) {
 
-    /**
-     * C.S.R.F. guardian by Slim.
-     *
-     * @return Guard
-     */
-    $app->add($container['csrf']);
-
-    /**
-     * use Tuum/Responder with Twig as renderer.
-     */
-    $app->add(
-        new TuumStack($container->get(Responder::class))
-    );
-
-    $app->add(
-        new AccessLog($container->get(LoggerInterface::class))
-    );
-};
-
+        $message = get_class($e) . ' exception: ' . $e->getMessage();
+        $context = [
+            'file' => $e->getFile(),
+            'line' => $e->getLine(),
+            'trace' => $e->getTraceAsString(),
+        ];
+        $log->critical($message, $context);
+        return $this->responder->error($req, $res)->asView($e->getCode());
+    }
+});

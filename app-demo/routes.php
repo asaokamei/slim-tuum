@@ -6,6 +6,7 @@ use Demo\Controller\PaginationController;
 use Demo\Controller\UploadController;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\App;
+use Tuum\Form\Lists\Lists;
 
 /** @var App $app */
 
@@ -13,10 +14,19 @@ use Slim\App;
 $app->get('/', function (ServerRequestInterface $request, $response, $args) {
     return $this->responder->view($request, $response)->render('index', $args);
 });
+$app->get('/forms', function (ServerRequestInterface $request, $response) {
+    return $this->responder->view($request, $response)->render('forms');
+});
 
 $app->get('/throw', function () {
     throw new \BadMethodCallException('always throws an exception');
 });
+
+$app->get('/info', function () {
+    phpinfo();
+    exit;
+});
+
 
 /**
  * jump and jumper to see the redirection and parameter in flash

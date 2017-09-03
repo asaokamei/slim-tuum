@@ -28,7 +28,8 @@ $container['responder'] = function (ContainerInterface $container) use($builder)
         new Tuum\Respond\Service\Renderer\Twig(
             new Twig_Environment(
                 new Twig_Loader_Filesystem($settings['template_path'] . '/twigs'), [
-                $builder->getVarDir() . '/twigs',
+                'cache' => $builder->getVarDir() . '/twigs',
+                    'auto_reload' => true,
             ])
         )
     );

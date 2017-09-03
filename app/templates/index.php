@@ -7,14 +7,14 @@
     <style type="text/css">
         body {
             margin: 0;
-            padding: .1em;
+            padding: 0;
             font-family: Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
             font-weight: 300;
         }
         div.top {
             border: 1px solid #cccccc;
             background-color: #f0f0f0;
-            margin: 1em 0;
+            margin: 0 0 1em 0;
             padding: 1em;
         }
         div.top h1 {

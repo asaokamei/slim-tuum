@@ -8,6 +8,7 @@ use Tuum\Respond\Responder;
 class RespondMiddleware
 {
     const CSRF_TOKEN = '_token';
+    const METHOD_TOKEN = '_method';
     
     /**
      * @var Responder
@@ -44,6 +45,10 @@ class RespondMiddleware
         $token   = isset($post[self::CSRF_TOKEN]) ? $post[self::CSRF_TOKEN] : '';
         if (!$session->validateToken($token)) {
             return $this->responder->error($request, $response)->forbidden();
+        }
+        // change method name if set
+        if (isset($request->getParsedBody()[self::METHOD_TOKEN])) {
+            $request = $request->withMethod($request->getParsedBody()[self::METHOD_TOKEN]);
         }
         return $next($request, $response);
     }

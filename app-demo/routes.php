@@ -2,6 +2,7 @@
 
 use Demo\Controller\DocumentMap;
 use Demo\Controller\JumpController;
+use Demo\Controller\LoginController;
 use Demo\Controller\PaginationController;
 use Demo\Controller\UploadController;
 use Psr\Http\Message\ServerRequestInterface;
@@ -34,6 +35,7 @@ $app->get('/info', function () {
 $app->any('/jump', JumpController::class);
 $app->any('/upload', UploadController::class);
 $app->any('/paginate', PaginationController::class);
+$app->any('/login', LoginController::class);
 
 /**
  * document map

@@ -2,6 +2,8 @@
 
 use Demo\Controller\DocumentMap;
 use Demo\Controller\JumpController;
+use Demo\Controller\LoginController;
+use Demo\Controller\LoginPresenter;
 use Demo\Controller\PaginationController;
 use Demo\Controller\UploadController;
 use Demo\Controller\UploadViewer;
@@ -69,6 +71,14 @@ $container[JumpController::class] = function (ContainerInterface $container) {
 
 $container[UploadController::class] = function (ContainerInterface $container) {
     return new UploadController($container->get('responder'));
+};
+
+$container[LoginController::class] = function (ContainerInterface $container) {
+    return new LoginController($container->get('responder'));
+};
+
+$container[LoginPresenter::class] = function (ContainerInterface $container) {
+    return new LoginPresenter($container->get('responder'));
 };
 
 $container[UploadViewer::class] = function (ContainerInterface $container) {

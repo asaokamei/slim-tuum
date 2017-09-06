@@ -4,33 +4,45 @@
 
     <div class="col-sm-6">
         <h3>Sample Pages</h3>
-        <ul>
-            <li><a href="toHome">redirect using named route</a></li>
-            <li><a href="jump">redirect with messages sample</a></li>
-            <li><a href="upload">file upload sample</a></li>
-            <li><a href="paginate">pagination</a></li>
-            <li><a href="forms">various input form samples</a></li>
+        <ul class="sample">
+            <li><a href="toHome">redirect using named route</a><br>
+                a simple redirect response using route name.</li>
+            <li><a href="jump">validation errors and redirect</a><br>
+                a redirect response with form validation errors. </li>
+            <li><a href="upload">file upload</a><br>
+                file upload controller and Presenter class.</li>
+            <li><strong>login form in footer</strong><br>
+                login form is rendered by LoginPresenter class from a template. </li>
+            <li style="list-style: none; margin-left: -1.5em;"><h4>TuumPHP Samples</h4></li>
+            <li><a href="paginate">pagination</a><br>
+                pagination sample using Tuum/Pagination. </li>
+            <li><a href="forms">various input form samples</a><br>
+                various input forms using Tuum/Forms</li>
         </ul>
+
     </div>
 
     <div class="col-sm-6">
-        <h3>content and file-map</h3>
-        <ul>
-            <li><a href="docs">documents</a> using FileMap.</li>
+        <h3>Content and File-map</h3>
+        <ul class="sample">
+            <li><a href="docs">documents</a><br>
+                using FileMap.</li>
             <li><a href="info" >php info</a></li>
         </ul>
     </div>
 
     <div class="col-sm-6">
-        <h3>error samples</h3>
-        <ul>
+        <h3>Error Samples</h3>
+        <ul class="sample">
             <li><a href="not-such-file">not found</a></li>
             <li><a href="throw">catch exception</a> </li>
-            <li>forbidden (post without CSRF tokens)
-                <form action="jump" method="post"><input type="submit" value="post w/o token!" class="btn btn-warning btn-xs" /></form></li>
+            <li><strong>forbidden error</strong> (post without CSRF tokens)
+                <form action="jump" method="post">
+                    <input type="submit" value="post w/o token!" class="btn btn-warning btn-xs" />
+                </form></li>
         </ul>
     </div>
-    
+
     <div class="clearfix"></div>
 
 {% endblock %}
@@ -39,6 +51,12 @@
     <style type="text/css">
         div.jumbotron h1 {
             font-size: 3em;
+        }
+        ul.sample li {
+            margin-top: .5em;
+        }
+        ul.sample li>a {
+            font-weight:bold;
         }
     </style>
 {% endblock %}

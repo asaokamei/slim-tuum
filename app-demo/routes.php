@@ -30,9 +30,10 @@ $app->get('/throw', function () {
     throw new \BadMethodCallException('always throws an exception');
 });
 
-$app->get('/info', function () {
-    phpinfo();
-    exit;
+$app->get('/info', function (ServerRequestInterface $request, $response) {
+    return $this->responder->view($request, $response)->asObContents(function () {
+        phpinfo();
+    });
 });
 
 

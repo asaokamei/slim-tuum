@@ -47,11 +47,22 @@ class JumpController implements ControllerInterface
      */
     public function onPost()
     {
-        $this->getViewData()
-            ->setSuccess('redirected back!')
-            ->setInput($this->getPost())
-            ->setInputErrors(['jumped' => 'redirected error message']);
         return $this->redirect()
+
+            // set error message.
+            ->setError('redirected back!')
+
+            // set form input values.
+            ->setInput($this->getPost())
+
+            // set validation errors.
+            ->setInputErrors([
+                'jumped' => 'redirected error message',
+                'date'   => 'your date',
+                'gender' => 'your gender',
+                'movie'  => 'selected movie',
+                'happy'  => 'be happy!'
+            ])
             ->toPath('jump');
     }
 

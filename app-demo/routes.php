@@ -22,6 +22,12 @@ $app->get('/toHome', function (ServerRequestInterface $request, $response) {
                            ->toRoute('home');
 });
 
+$app->get('/back', function (ServerRequestInterface $request, $response) {
+    return $this->responder->redirect($request, $response)
+                           ->setSuccess('redirected back to "REFERER"')
+                           ->toReferrer();
+});
+
 $app->get('/forms', function (ServerRequestInterface $request, $response) {
     return $this->responder->view($request, $response)->render('forms');
 });

@@ -7,9 +7,9 @@ use Tuum\Respond\Responder;
 
 class RespondMiddleware
 {
-    const CSRF_TOKEN = '_token';
+    const CSRF_TOKEN   = '_token';
     const METHOD_TOKEN = '_method';
-    
+
     /**
      * @var Responder
      */
@@ -33,23 +33,69 @@ class RespondMiddleware
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, $next)
     {
-        // set CSRF token as request's attribute. 
-        $session = $this->responder->session();
-        $request = $request->withAttribute(self::CSRF_TOKEN, $session->getToken());
-
-        if ($request->getMethod() !== 'POST') {
-            return $next($request, $response);
-        }
-        // check token for post method. 
-        $post    = $request->getParsedBody();
-        $token   = isset($post[self::CSRF_TOKEN]) ? $post[self::CSRF_TOKEN] : '';
-        if (!$session->validateToken($token)) {
+        $request = $this->handleCsRfToken($request);
+        $request = $this->handleMethodToken($request);
+        if (!$this->validateCsRfToken($request)) {
             return $this->responder->error($request, $response)->forbidden();
         }
-        // change method name if set
+        $response = $next($request, $response);
+        $this->handleReferrer($request, $response);
+        
+        return $response;
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     * @return ServerRequestInterface|static
+     */
+    private function handleCsRfToken(ServerRequestInterface $request)
+    {
+        $request = $request->withAttribute(self::CSRF_TOKEN, $this->responder->session()->getToken());
+        return $request;
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     * @return ServerRequestInterface|static
+     */
+    private function handleMethodToken(ServerRequestInterface $request)
+    {
         if (isset($request->getParsedBody()[self::METHOD_TOKEN])) {
             $request = $request->withMethod($request->getParsedBody()[self::METHOD_TOKEN]);
         }
-        return $next($request, $response);
+        return $request;
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     * @return bool
+     */
+    private function validateCsRfToken(ServerRequestInterface $request)
+    {
+        if ($request->getMethod() !== 'POST') {
+            return true;
+        }
+        $post = $request->getParsedBody();
+        $token = isset($post[self::CSRF_TOKEN]) ? $post[self::CSRF_TOKEN] : '';
+        if (!$this->responder->session()->validateToken($token)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface      $response
+     */
+    private function handleReferrer(ServerRequestInterface $request, ResponseInterface $response)
+    {
+        if ($request->getMethod() !== 'GET') {
+            return;
+        }
+        if ($response->getStatusCode() === 200) {
+            $this->responder
+                ->session()
+                ->set(Responder\Redirect::REFERRER, $request->getUri()->__toString());
+        }
     }
 }

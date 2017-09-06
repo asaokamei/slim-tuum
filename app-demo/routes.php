@@ -14,7 +14,14 @@ use Tuum\Form\Lists\Lists;
 // Routes
 $app->get('/', function (ServerRequestInterface $request, $response, $args) {
     return $this->responder->view($request, $response)->render('index', $args);
+})->setName('home');
+
+$app->get('/toHome', function (ServerRequestInterface $request, $response) {
+    return $this->responder->redirect($request, $response)
+                           ->setSuccess('redirected to "HOME"')
+                           ->toRoute('home');
 });
+
 $app->get('/forms', function (ServerRequestInterface $request, $response) {
     return $this->responder->view($request, $response)->render('forms');
 });

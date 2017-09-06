@@ -7,6 +7,7 @@ use Demo\Controller\LoginPresenter;
 use Demo\Controller\PaginationController;
 use Demo\Controller\UploadController;
 use Demo\Controller\UploadViewer;
+use Demo\Handler\NamedRoutes;
 use Demo\Handler\RespondMiddleware;
 use Psr\Container\ContainerInterface;
 use Slim\App;
@@ -27,14 +28,13 @@ $container['responder'] = function (ContainerInterface $container) use($builder)
     $settings = $container->get('settings')['renderer'];
     $b = new Tuum\Respond\Builder('slim3-demo');
     $b->setRenderer(
-        new Tuum\Respond\Service\Renderer\Twig(
-            new Twig_Environment(
-                new Twig_Loader_Filesystem($settings['template_path'] . '/twigs'), [
-                'cache' => $builder->getVarDir() . '/twigs',
-                    'auto_reload' => true,
-            ])
-        )
+        Tuum\Respond\Service\Renderer\Twig::forge(
+            $settings['template_path'] . '/twigs', [
+            'cache' => $builder->getVarDir() . '/twigs',
+            'auto_reload' => true,
+        ])
     );
+    $b->setNamedRoutes(new NamedRoutes($container['router']));
     $b->setContainer($container);
     $responder = new Tuum\Respond\Responder($b);
     Tuum\Respond\Respond::setResponder($responder);

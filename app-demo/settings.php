@@ -17,6 +17,7 @@ return [
             'path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../var/logs/app.log',
             'level' => \Monolog\Logger::DEBUG,
         ],
+        'debug' => $builder->get('debug'),
     ],
     'foundHandler' => function() {return new FoundHandler();},
     'notFoundHandler' => function (ContainerInterface $c) {return new NotFoundHandler($c->get('responder'));}

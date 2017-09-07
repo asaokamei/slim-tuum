@@ -29,7 +29,7 @@ $container['responder'] = function (ContainerInterface $container) use($builder)
     $b = new Tuum\Respond\Builder('slim3-demo');
     $b->setRenderer(
         Tuum\Respond\Service\Renderer\Twig::forge(
-            $settings['template_path'] . '/twigs', [
+            $settings['template_path'], [
             'cache' => $builder->getVarDir() . '/twigs',
             'auto_reload' => true,
         ])

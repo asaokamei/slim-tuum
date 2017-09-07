@@ -9,6 +9,7 @@ use Demo\Handler\RespondMiddleware;
 use Psr\Container\ContainerInterface;
 use Slim\App;
 use Tuum\Builder\Builder;
+use Tuum\Respond\Service\Renderer\RawPhp;
 
 /** @var App $app */
 /** @var Builder $builder */
@@ -25,9 +26,7 @@ $container['responder'] = function (ContainerInterface $container) use($builder)
     $settings = $container->get('settings')['renderer'];
     $b = new Tuum\Respond\Builder('slim3-demo');
     $b->setRenderer(
-        new Tuum\Respond\Service\Renderer\Plates(
-            new \League\Plates\Engine($settings['template_path'])
-        )
+        RawPhp::forge($settings['template_path'])
     );
     $b->setContainer($container);
     $responder = new Tuum\Respond\Responder($b);

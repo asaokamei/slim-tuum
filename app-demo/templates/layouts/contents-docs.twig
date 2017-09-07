@@ -1,0 +1,21 @@
+{% extends "layouts/layout.twig" %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-3">
+            <br/>
+            <h4><a href="/docs/" >Document Top</a></h4>
+            <ul>
+                <li><a href="/docs/introduction" >Introduction</a></li>
+                <li><a href="/docs/responders" >Responders</a></li>
+                <li><a href="/docs/template" >Template</a></li>
+                <li><a href="/docs/controller" >Controller</a></li>
+            </ul>
+        </div>
+        <div class="col-md-9">
+            {{ contents|raw }}
+        </div>
+    </div>
+
+{% endblock %}

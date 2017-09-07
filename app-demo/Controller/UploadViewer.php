@@ -32,7 +32,7 @@ class UploadViewer implements PresenterInterface
      * @param ViewDataInterface      $viewData
      * @return ResponseInterface
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, $viewData)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, ViewDataInterface $viewData)
     {
         $data = $viewData->getData();
         if (!isset($data['isUploaded']) || !$data['isUploaded']) {

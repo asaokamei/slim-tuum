@@ -27,6 +27,7 @@ $app->add(function(ServerRequestInterface $req, $res, $next) {
             'trace' => $e->getTraceAsString(),
         ];
         $log->critical($message, $context);
-        return $this->responder->error($req, $res)->asView($e->getCode());
+        $status = $e->getCode() ?: 500;
+        return $this->responder->error($req, $res)->asView($status);
     }
 });

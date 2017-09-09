@@ -30,7 +30,7 @@ $app->get('/back', function (ServerRequestInterface $request, $response) {
 
 $app->get('/forms', function (ServerRequestInterface $request, $response) {
     return $this->responder->view($request, $response)->render('forms');
-});
+})->setName('forms');
 
 $app->get('/throw', function () {
     throw new \BadMethodCallException('always throws an exception');
@@ -46,9 +46,9 @@ $app->get('/info', function (ServerRequestInterface $request, $response) {
 /**
  * jump and jumper to see the redirection and parameter in flash
  */
-$app->any('/jump', JumpController::class);
-$app->any('/upload', UploadController::class);
-$app->any('/paginate', PaginationController::class);
+$app->any('/jump', JumpController::class)->setName('jump');
+$app->any('/upload', UploadController::class)->setName('upload');
+$app->any('/paginate', PaginationController::class)->setName('paginate');
 $app->any('/login', LoginController::class);
 
 /**

@@ -1,0 +1,5 @@
+<label for="{{ name }}">{{ title }}</label>
+<div class="form-group{{ view.errors.ifExists(name, null, ' has-error') }}">
+    {{ view.forms.checkbox(name, value).label(label) | raw}}
+    {% include '_form/error.twig' with {'name': name} %}
+</div>

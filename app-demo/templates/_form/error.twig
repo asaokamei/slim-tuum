@@ -1,0 +1,3 @@
+{% if view.errors.exists(name) %}
+    <p class="text-danger">{{ view.errors.raw(name)}}</p>
+{% endif %}

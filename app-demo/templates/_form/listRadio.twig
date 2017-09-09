@@ -1,0 +1,7 @@
+<label for="{{ name }}">{{ title }}</label>
+<div class="form-group{{ view.errors.ifExists(name, null, ' has-error') }}">
+    {% for value, label in list %}
+        {{ view.forms.radio(name, value).label(label)|raw }}&nbsp;
+    {% endfor %}
+    {% include '_form/error.twig' with {'name': name} %}
+</div>

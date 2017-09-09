@@ -1,0 +1,5 @@
+<div class="form-group{{ view.errors.ifExists(name, null, ' has-error') }}">
+    <label for="{{ name }}">{{ title }}</label>
+    {{ view.forms.text(name, view.inputs.raw(name, view.data.raw(name))).class('form-control') | raw}}
+    {% include '_form/error.twig' with {'name': name} %}
+</div>

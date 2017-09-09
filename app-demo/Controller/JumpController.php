@@ -36,6 +36,10 @@ class JumpController implements ControllerInterface
     public function onGet()
     {
         return $this->view()
+            ->setData('jumped', 'original text')
+            ->setData('date', date('Y-m-d'))
+            ->setData('movie', [1, 2, 3])
+            ->setData('happy', 'happy')
             ->render('jump');
     }
 

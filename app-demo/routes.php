@@ -32,6 +32,10 @@ $app->get('/forms', function (ServerRequestInterface $request, $response) {
     return $this->responder->view($request, $response)->render('forms');
 })->setName('forms');
 
+$app->get('/bad', function (ServerRequestInterface $request, $response) {
+    return $this->responder->view($request, $response)->render('bad');
+})->setName('bad');
+
 $app->get('/throw', function () {
     throw new \BadMethodCallException('always throws an exception');
 });

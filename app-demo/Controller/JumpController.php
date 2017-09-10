@@ -38,6 +38,7 @@ class JumpController implements ControllerInterface
         return $this->view()
             ->setData('jumped', 'original text')
             ->setData('date', date('Y-m-d'))
+            ->setData('gender', 3)
             ->setData('movie', [1, 2, 3])
             ->setData('happy', 'happy')
             ->render('jump');

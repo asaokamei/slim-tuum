@@ -1,7 +1,13 @@
 <label for="{{ name }}">{{ title }}</label>
 <div class="form-group{{ view.errors.ifExists(name, null, ' has-error') }}">
     {% for value, label in list %}
-        {{ view.forms.checkbox(name~'[]', value).label(label)|raw }}&nbsp;
+        {% set checkbox = view.forms.checkbox(name~'[]', value).label(label) %}
+        {% if view.hasInputs %}
+            {% set checkbox = checkbox.checked(view.inputs.exists(name, value))%}
+        {% else %}
+            {% set checkbox = checkbox.checked(view.data.exists(name, value))%}
+        {% endif %}
+        {{ checkbox|raw }},&nbsp;
     {% endfor %}
     {% include '_form/error.twig' with {'name': name} %}
 </div>

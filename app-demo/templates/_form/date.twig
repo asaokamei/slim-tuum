@@ -1,5 +1,6 @@
 <div class="form-group{{ view.errors.ifExists(name, null, ' has-error') }}">
     <label for="{{ name }}">{{ title }}</label>
-    {{ view.forms.date(name, view.inputs.raw(name, view.data.raw(name))).class('form-control').style('width: 12em') | raw}}
+    {% set value = view.inputs.raw(name, view.data.raw(name)) %}
+    {{ view.forms.date(name, value).class('form-control').style('width: 12em') | raw}}
     {% include '_form/error.twig' with {'name': name} %}
 </div>

@@ -3,8 +3,14 @@ use Demo\Handler\RespondMiddleware;
 use Monolog\Logger;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\App;
+use Tuum\Builder\Builder;
 
 /** @var App $app */
+/** @var Builder $builder */
+
+if ($builder->isDebug()) {
+    $app->add(new \Franzl\Middleware\Whoops\Middleware);
+}
 
 $app->add(RespondMiddleware::class);
 

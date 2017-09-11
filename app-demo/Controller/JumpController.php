@@ -35,13 +35,24 @@ class JumpController implements ControllerInterface
      */
     public function onGet()
     {
-        return $this->view()
-            ->setData('jumped', 'original text')
-            ->setData('date', date('Y-m-d'))
-            ->setData('gender', 3)
-            ->setData('movie', [1, 2, 3])
-            ->setData('happy', 'happy')
-            ->render('jump');
+        $this->view()
+            ->setData([
+                'jumped' => 'original text',
+                'date'   => date('Y-m-d'),
+                'gender' => 3,
+                'movie'  => [1, 2, 3],
+                'happy'  => 'happy',
+            ]);
+        
+        return $this->showForm();
+    }
+
+    /**
+     * @return mixed
+     */
+    private function showForm()
+    {
+        return $this->view()->render('jump');
     }
 
     /**
@@ -52,11 +63,10 @@ class JumpController implements ControllerInterface
      */
     public function onPost()
     {
-        return $this->redirect()
+        $this->getViewData()
 
-            // set error message.
-            ->setError('redirected back!')
-
+            ->setError('showing validation errors.')
+            
             // set form input values.
             ->setInput($this->getPost())
 
@@ -67,8 +77,17 @@ class JumpController implements ControllerInterface
                 'gender' => 'your gender',
                 'movie'  => 'selected movie',
                 'happy'  => 'be happy!'
-            ])
-            ->toPath('jump');
+            ]);
+
+        if ($this->getPost('_redirect')) {
+            return $this->redirect()
+                ->setError('redirected back!') // set error message.
+                ->toPath('jump');
+        }
+        $this->view()
+            ->setError('redrawn form!');
+
+        return $this->showForm();
     }
 
 }

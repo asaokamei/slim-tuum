@@ -29,11 +29,11 @@ class UploadViewer implements PresenterInterface
      *
      * @param ServerRequestInterface $request
      * @param ResponseInterface      $response
-     * @param ViewDataInterface      $viewData
      * @return ResponseInterface
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, ViewDataInterface $viewData)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
     {
+        $viewData = $this->responder->getViewData();
         $data = $viewData->getData();
         if (!isset($data['isUploaded']) || !$data['isUploaded']) {
             $viewData->setSuccess('Please upload a file (max 512 byte). ');

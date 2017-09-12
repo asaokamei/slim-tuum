@@ -14,6 +14,7 @@
         "tuum/respond": "dev-3.x-dev",
         "tuum/filemap": "^1.0",
         "tuum/builder":"^0.2.0",
+        "tuum/pagination":"^0.3",
         "monolog/monolog": " ^1.0",
         "league/plates": "^3.3",
         "twig/twig": "^2.4",

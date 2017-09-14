@@ -19,17 +19,6 @@ class LoginPresenter implements PresenterInterface
     }
 
     /**
-     * @param Responder $responder
-     * @return LoginPresenter
-     */
-    public static function forge($responder)
-    {
-        $self            = new self($responder);
-
-        return $self;
-    }
-
-    /**
      * renders $view and returns a new $response.
      *
      * @return ResponseInterface

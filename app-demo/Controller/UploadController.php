@@ -5,7 +5,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Http\UploadedFile;
 use Tuum\Respond\Controller\DispatchByMethodTrait;
-use Tuum\Respond\Interfaces\PresenterInterface;
 use Tuum\Respond\Responder;
 
 class UploadController implements ControllerInterface
@@ -48,11 +47,8 @@ class UploadController implements ControllerInterface
         /** @var UploadedFile $upload */
         $uploaded = $this->getRequest()->getUploadedFiles();
         $upload   = $uploaded['up'][0];
-        $this->responder->getViewData()
-            ->setData('isUploaded', true)
-            ->setData('dump', print_r($uploaded, true))
-            ->setData('upload', $upload)
-            ->setData('error_code', $upload->getError());
-        return $this->call(UploadViewer::class);
+        return $this->call(UploadViewer::class, [
+            'upload' => $upload,
+        ]);
     }
 }

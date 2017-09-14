@@ -2,13 +2,16 @@
 namespace Demo\Controller;
 
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Tuum\Respond\Interfaces\ViewDataInterface;
+use Psr\Http\Message\UploadedFileInterface;
+use Tuum\Respond\Controller\PresentByContentTrait;
 use Tuum\Respond\Responder;
 use Tuum\Respond\Interfaces\PresenterInterface;
 
 class UploadViewer implements PresenterInterface
 {
+    const MAX_BYTES = 2048; // 2k byte
+    use PresentByContentTrait;
+
     /**
      * @var Responder
      */
@@ -17,7 +20,7 @@ class UploadViewer implements PresenterInterface
     /**
      * UploadController constructor.
      *
-     * @param Responder          $responder
+     * @param Responder $responder
      */
     public function __construct($responder)
     {
@@ -25,33 +28,35 @@ class UploadViewer implements PresenterInterface
     }
 
     /**
-     * renders $view and returns a new $response.
-     *
-     * @param ServerRequestInterface $request
-     * @param ResponseInterface      $response
      * @return ResponseInterface
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
+    protected function html()
     {
-        $viewData = $this->responder->getViewData();
-        $data = $viewData->getData();
-        if (!isset($data['isUploaded']) || !$data['isUploaded']) {
-            $viewData->setSuccess('Please upload a file (max 512 byte). ');
-            return $this->responder->view($request, $response)
-                ->render('upload');
+        $data = $this->getViewData()->getData();
+        if (array_key_exists('upload', $data)) {
+            $upload = $data['upload'];
+            $this->setUpMessage($data['upload']);
+            return $this->view()
+                        ->render('upload', [
+                            'upload'  => $upload,
+                            'maxSize' => self::MAX_BYTES,
+                        ]);
         }
-        $this->setUpMessage($viewData);
-        return $this->responder->view($request, $response)
-            ->render('upload');
+        return $this->view()
+                    ->setSuccess('Please upload a file (max 512 byte). ')
+                    ->render('upload', [
+                        'maxSize' => self::MAX_BYTES,
+                    ]);
     }
 
     /**
-     * @param ViewDataInterface $viewData
+     * @param UploadedFileInterface $upload
      */
-    private function setUpMessage($viewData)
+    private function setUpMessage($upload)
     {
-        $data       = $viewData->getData();
-        $error_code = isset($data['error_code']) ? $data['error_code'] : null;
+        $viewData = $this->getViewData();
+        $viewData->setData('upload', $upload);
+        $error_code = $upload->getError();
         if (!$error_code) {
             $viewData->setSuccess('successfully uploaded a file!');
             return;

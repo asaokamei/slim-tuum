@@ -6,11 +6,11 @@
 
     <h2>Upload Form</h2>
 
-    <p>please upload any file less than 2048 byte. </p>
+    <p>please upload any file less than {{ maxSize }} byte. </p>
 
     <form method="post" action="" enctype="multipart/form-data">
         <input type="hidden" name="_token" value="{{ view.attributes('_token') }}">
-        <input type="hidden" name="MAX_FILE_SIZE" value="2048">
+        <input type="hidden" name="MAX_FILE_SIZE" value="{{ maxSize }}">
 
         <div class="form-group">
 
@@ -20,6 +20,7 @@
         </div>
 
         <input type="submit" value="upload file" class="btn btn-primary"/>
+        <a href="" class="btn btn-default">Clear</a>
 
     </form>
 

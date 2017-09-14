@@ -28,11 +28,11 @@ class UploadViewer implements PresenterInterface
     }
 
     /**
+     * @param array $data
      * @return ResponseInterface
      */
-    protected function html()
+    protected function html(array $data)
     {
-        $data = $this->getViewData()->getData();
         if (array_key_exists('upload', $data)) {
             $upload = $data['upload'];
             $this->setUpMessage($data['upload']);

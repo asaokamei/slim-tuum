@@ -3,7 +3,8 @@ use Demo\Handler\FoundHandler;
 use Demo\Handler\NotFoundHandler;
 use Psr\Container\ContainerInterface;
 
-return [
+return $builder->getAll() + [
+    'debug' => $builder->isDebug(),
     'settings' => [
         'displayErrorDetails' => true, // set to false in production
         'addContentLengthHeader' => false, // Allow the web server to send the content-length header
@@ -17,7 +18,6 @@ return [
             'path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../var/logs/app.log',
             'level' => \Monolog\Logger::DEBUG,
         ],
-        'debug' => $builder->get('debug'),
     ],
     'foundHandler' => function() {return new FoundHandler();},
     'notFoundHandler' => function (ContainerInterface $c) {return new NotFoundHandler($c->get('responder'));}

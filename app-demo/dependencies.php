@@ -10,10 +10,8 @@ use Demo\Handler\NamedRoutes;
 use Demo\Handler\RespondMiddleware;
 use Psr\Container\ContainerInterface;
 use Slim\App;
-use Tuum\Builder\Builder;
 
 /** @var App $app */
-/** @var Builder $builder */
 
 $container = $app->getContainer();
 
@@ -23,14 +21,14 @@ $container = $app->getContainer();
  * @param ContainerInterface $container
  * @return Tuum\Respond\Responder
  */
-$container['responder'] = function (ContainerInterface $container) use($builder) {
+$container['responder'] = function (ContainerInterface $container) {
     $settings = $container->get('settings')['renderer'];
     $responder = \Tuum\Respond\Responder::forge(
         \Tuum\Respond\Builder::forge('slim3-demo')
             ->setRenderer(
                 Tuum\Respond\Service\Renderer\Twig::forge(
                     $settings['template_path'], [
-                    'cache'       => $builder->getVarDir() . '/twigs',
+                    'cache'       => $container->get('var-dir') . '/twigs',
                     'auto_reload' => true,
                 ])
             )->setNamedRoutes(
@@ -89,11 +87,11 @@ $container[RespondMiddleware::class] = function (ContainerInterface $container) 
     return new RespondMiddleware($container->get('responder'));
 };
 
-$container[DocumentMap::class] = function (ContainerInterface $container) use($builder) {
+$container[DocumentMap::class] = function (ContainerInterface $container) {
     return DocumentMap::forge(
         $container->get('responder'),
         __DIR__ . '/../vendor/tuum/respond/docs',
-        $builder->getVarDir() . '/md'
+        $container->get('var-dir') . '/md'
         );
 };
 

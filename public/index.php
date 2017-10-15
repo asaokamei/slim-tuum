@@ -19,14 +19,14 @@ session_start();
 // Instantiate the app
 $builder = Builder::forge(
     dirname(__DIR__) . '/app',
-    dirname(__DIR__) . '/var',
+    dirname(__DIR__) . '/var/app',
     false
 );
 $builder->loadEnv();
 $builder->load('settings');
 $builder->load('app');
 $builder->load('dependencies');
-$builder->load('middleware');
+//$builder->load('middleware');
 $builder->load('routes');
 
 /** @var \Slim\App $app */

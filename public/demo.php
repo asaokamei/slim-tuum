@@ -19,8 +19,8 @@ session_start();
 // Instantiate the app
 $builder = Builder::forge(
     dirname(__DIR__) . '/app-demo', 
-    dirname(__DIR__) . '/var', 
-    false
+    dirname(__DIR__) . '/var/demo', 
+    true
 );
 $builder->loadEnv();
 $builder->load('settings');

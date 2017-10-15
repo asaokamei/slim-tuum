@@ -15,7 +15,7 @@ return $builder->getAll() + [
         // Monolog settings
         'logger' => [
             'name' => 'demo',
-            'path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../var/logs/app.log',
+            'path' => isset($_ENV['docker']) ? 'php://stdout' : $builder->getVarDir() . '/logs/app.log',
             'level' => \Monolog\Logger::DEBUG,
         ],
     ],

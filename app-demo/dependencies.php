@@ -1,5 +1,4 @@
 <?php
-
 use Demo\Controller\DocumentMap;
 use Demo\Controller\JumpController;
 use Demo\Controller\LoginController;
@@ -26,18 +25,19 @@ $container = $app->getContainer();
  */
 $container['responder'] = function (ContainerInterface $container) use($builder) {
     $settings = $container->get('settings')['renderer'];
-    $b = new Tuum\Respond\Builder('slim3-demo');
-    $b->setRenderer(
-        Tuum\Respond\Service\Renderer\Twig::forge(
-            $settings['template_path'], [
-            'cache' => $builder->getVarDir() . '/twigs',
-            'auto_reload' => true,
-        ])
+    $responder = \Tuum\Respond\Responder::forge(
+        \Tuum\Respond\Builder::forge('slim3-demo')
+            ->setRenderer(
+                Tuum\Respond\Service\Renderer\Twig::forge(
+                    $settings['template_path'], [
+                    'cache'       => $builder->getVarDir() . '/twigs',
+                    'auto_reload' => true,
+                ])
+            )->setNamedRoutes(
+                new NamedRoutes($container['router'])
+            )->setContainer($container)
     );
-    $b->setNamedRoutes(new NamedRoutes($container['router']));
-    $b->setContainer($container);
-    $responder = new Tuum\Respond\Responder($b);
-    Tuum\Respond\Respond::setResponder($responder);
+    // Tuum\Respond\Respond::setResponder($responder);
     
     return $responder;
 };

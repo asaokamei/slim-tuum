@@ -37,7 +37,7 @@ $app->get('/bad', function (ServerRequestInterface $request, $response) {
 })->setName('bad');
 
 $app->get('/throw', function () {
-    throw new \BadMethodCallException('always throws an exception');
+    throw new \BadMethodCallException('catch me if you can.');
 });
 
 $app->get('/info', function (ServerRequestInterface $request, $response) {

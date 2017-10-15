@@ -33,11 +33,11 @@ class RespondMiddleware
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, $next)
     {
-        $request = $this->handleCsRfToken($request);
-        $request = $this->handleMethodToken($request);
         if (!$this->validateCsRfToken($request)) {
             return $this->responder->error($request, $response)->forbidden();
         }
+        $request = $this->handleCsRfToken($request);
+        $request = $this->handleMethodToken($request);
         $response = $next($request, $response);
         $this->handleReferrer($request, $response);
         

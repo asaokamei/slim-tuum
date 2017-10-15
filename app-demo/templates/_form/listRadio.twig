@@ -1,13 +1,18 @@
-<label for="{{ name }}">{{ title }}</label>
 <div class="form-group{{ view.errors.ifExists(name, null, ' has-error') }}">
-    {% for value, label in list %}
-        {% set radio = view.forms.radio(name, value).label(label) %}
-        {% if view.hasInputs %}
-            {% set radio = radio.checked(view.inputs.exists(name, value))%}
-        {% else %}
-            {% set radio = radio.checked(view.data.exists(name, value))%}
-        {% endif %}
-        {{ radio|raw }},&nbsp;
-    {% endfor %}
-    {% include '_form/error.twig' with {'name': name} %}
+    <div class="col-sm-2">
+        <label for="{{ name }}">{{ title }}</label>
+    </div>
+    <div class="col-sm-10">
+        {% for value, label in list %}
+            {% set radio = view.forms.radio(name, value).label(label) %}
+            {% if view.hasInputs %}
+                {% set radio = radio.checked(view.inputs.exists(name, value))%}
+            {% else %}
+                {% set radio = radio.checked(view.data.exists(name, value))%}
+            {% endif %}
+            {{ radio|raw }},&nbsp;
+        {% endfor %}
+        {% include '_form/error.twig' with {'name': name} %}
+    </div>
+    <div class="clearfix"></div>
 </div>

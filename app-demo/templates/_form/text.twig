@@ -1,6 +1,17 @@
+{% set value = view.inputs.raw(name, view.data.raw(name)) %}
+{% set attribute = view.forms.newAttribute({
+    'class': 'form-control'
+}) %}
+{% if attr is defined %}
+    {% set attribute = attribute.fillAttributes(attr) %}
+{% endif %}
 <div class="form-group{{ view.errors.ifExists(name, null, ' has-error') }}">
-    <label for="{{ name }}">{{ title }}</label>
-    {% set value = view.inputs.raw(name, view.data.raw(name)) %}
-    {{ view.forms.text(name, value).class('form-control') | raw}}
-    {% include '_form/error.twig' with {'name': name} %}
+    <div class="col-sm-2">
+        <label for="{{ name }}">{{ title }}</label>
+    </div>
+    <div class="col-sm-10">
+        <input type="text" name="{{ name }}" id="{{ name }}" value="{{ value }}" {{ attribute|raw }}>
+        {% include '_form/error.twig' with {'name': name} %}
+    </div>
+    <div class="clearfix"></div>
 </div>

@@ -12,23 +12,44 @@
         
         <input type="hidden" name="_token" value="{{ view.attributes('_token') }}">
 
-        {% include '_form/text.twig' with {'name': 'jumped', 'title': 'extra text:'} %}
-        {% include '_form/date.twig' with {'name': 'date', 'title': 'some date:'} %}
+        {% include '_form/text.twig' with {
+            'name': 'jumped', 
+            'title': 'extra text:'
+        } %}
         
-        {% include '_form/listRadio.twig' with {'name': 'gender', 'title': 'your gender:', 'list': {
-            1: 'male', 2: 'femal', 3: 'other'
-        }} %}
+        {% include '_form/date.twig' with {
+            'name': 'date', 
+            'title': 'some date:',
+            'attr': {'style': 'width: 12em'}
+        } %}
         
-        {% include '_form/listCheck.twig' with {'name': 'movie', 'title': 'your movie:', 'list': {
-        1: 'Star Wars', 2: 'Star Trek', 3: 'Yamato'
-        }} %}
+        {% include '_form/listRadio.twig' with {
+            'name': 'gender', 
+            'title': 'your gender:', 
+            'list': {
+                1: 'male', 2: 'femal', 3: 'other'
+            } } %}
+        
+        {% include '_form/listCheck.twig' with {
+            'name': 'movie', 
+            'title': 'your movie:', 
+            'list': {
+                1: 'Star Wars', 2: 'Star Trek', 3: 'Yamato'
+            } } %}
 
-        {% include '_form/check.twig' with {'name': 'happy', 'value': 'yes', 'title': 'Are You Happy?', 'label': 'Yes!'} %}
+        {% include '_form/check.twig' with {
+            'name': 'happy', 
+            'value': 'yes', 
+            'label': 'Yes!',
+            'title': 'Are You Happy?'
+        } %}
 
-        <div class="form-inline">
+        <div class="form-group">
             <input type="submit" value="jump!" class="btn btn-primary"/>&nbsp;
             <input type="button" value="clear" onclick="location.href=''" class="btn btn-default"/>
-            {% include '_form/check.twig' with {'name': '_redirect', 'value': 'redirect', 'title': '', 'label': 'redirect back'} %}
+            <label>
+                Redirect Back: <input type="checkbox" name="_redirect" value="redirect" {{ view.inputs.ifExists('_redirect', 'redirect', 'checked') }}>
+            </label>
         </div>
 
     </form>

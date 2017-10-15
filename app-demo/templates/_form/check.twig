@@ -1,11 +1,21 @@
-<label for="{{ name }}">{{ title }}</label>
+{% set checkbox = view.forms.checkbox(name, value).label(label) %}
+{% if view.hasInputs %}
+    {% set checked = view.inputs.ifExists(name, value, 'checked') %}
+{% else %}
+    {% set checked = view.data.exists(name, value, 'checked')%}
+{% endif %}
+
 <div class="form-group{{ view.errors.ifExists(name, null, ' has-error') }}">
-    {% set checkbox = view.forms.checkbox(name, value).label(label) %}
-    {% if view.hasInputs %}
-        {% set checkbox = checkbox.checked(view.inputs.exists(name, value))%}
-    {% else %}
-        {% set checkbox = checkbox.checked(view.data.exists(name, value))%}
-    {% endif %}
-    {{ checkbox|raw }}
-    {% include '_form/error.twig' with {'name': name} %}
+    <div class="col-sm-2">
+        <label for="{{ name }}">{{ title }}</label>
+    </div>
+    <div class="col-sm-10">
+        <label>
+            <input type="checkbox" name="{{ name }}" id="{{ name }}" value="{{ value }}" {{ checked }}>
+            {{ label }}
+        </label>
+        
+        {% include '_form/error.twig' with {'name': name} %}
+    </div>
+    <div class="clearfix"></div>
 </div>

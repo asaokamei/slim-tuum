@@ -1,0 +1,8 @@
+{% if view.message is not empty  %}
+
+    {% set classes = {'message': 'success', 'alert': 'info', 'error': 'danger'} %}
+    {% set message = view.message.findMostSerious %}
+    <br/>
+    <div class="alert alert-{{ classes[message.type] }}">{{ message.message }}</div>
+
+{% endif %}

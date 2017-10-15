@@ -73,10 +73,7 @@
 
     <div class="col-md-12">
 
-        {% if view.message is not empty  %}
-            <br/>
-            {{ view.message|raw }}
-        {% endif %}
+        {% include('_form/message.twig') %}
 
         {% block content %} {% endblock %}
 

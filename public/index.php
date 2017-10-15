@@ -1,4 +1,6 @@
 <?php
+use Tuum\Builder\Builder;
+
 if (PHP_SAPI == 'cli-server') {
     // To help the built-in PHP dev server, check if the request was actually for
     // something which should probably be served as a static file
@@ -15,7 +17,20 @@ require __DIR__ . '/../vendor/autoload.php';
 session_start();
 
 // Instantiate the app
-$app = require __DIR__ . '/../app/app.php';
+$builder = Builder::forge(
+    dirname(__DIR__) . '/app',
+    dirname(__DIR__) . '/var',
+    false
+);
+$builder->loadEnv();
+$builder->load('settings');
+$builder->load('app');
+$builder->load('dependencies');
+$builder->load('middleware');
+$builder->load('routes');
+
+/** @var \Slim\App $app */
+$app = $builder->getApp();
 
 // Run app
 $app->run();

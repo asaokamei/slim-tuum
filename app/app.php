@@ -1,13 +1,9 @@
 <?php
 use Tuum\Builder\Builder;
 
-$builder = Builder::forge(__DIR__, dirname(__DIR__) . '/var', true);
-$settings = $builder->load('settings');
+/** @var Builder $settings */
+$settings = $builder->get('settings');
 $app = new \Slim\App($settings);
-$builder->set('app', $app);
-
-$builder->load('dependencies');
-$builder->load('middleware');
-$builder->load('routes');
+$builder->setApp($app);
 
 return $app;

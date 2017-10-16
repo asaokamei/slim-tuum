@@ -101,3 +101,5 @@ $container[PaginationController::class] = function (ContainerInterface $containe
         new \Tuum\Pagination\Pager()
     );
 };
+
+$container['PhpDebugBarMiddleware'] = new \PhpMiddleware\PhpDebugBar\PhpDebugBarMiddlewareFactory();

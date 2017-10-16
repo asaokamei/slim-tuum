@@ -1,6 +1,7 @@
 <?php
 use Demo\Handler\RespondMiddleware;
 use Monolog\Logger;
+use PhpMiddleware\PhpDebugBar\PhpDebugBarMiddlewareFactory;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\App;
 use Tuum\Builder\Builder;
@@ -10,6 +11,7 @@ use Tuum\Builder\Builder;
 
 if ($builder->isDebug()) {
     $app->add(new \Franzl\Middleware\Whoops\Middleware);
+    $app->add('PhpDebugBarMiddleware');
 }
 
 $app->add(RespondMiddleware::class);

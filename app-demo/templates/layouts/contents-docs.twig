@@ -1,16 +1,34 @@
 {% extends "layouts/layout.twig" %}
 
+{% block breadlist %}
+    {% if path == 'readme' %}
+        <li><a href="/docs/">Documents</a></li>
+    {% else %}
+        <li><a href="/docs/">Documents</a></li>
+        {% set breads = {
+        'readme': 'Table of Contents',
+        'introduction': 'Sample Code',
+        'responders': 'Responders',
+        'template': 'Renderer and Template',
+        'controller': 'Controller Helpers'
+        } %}
+        <li class="active">{{ breads[path] }}</li>
+    {% endif %}
+{% endblock %}
+
 {% block content %}
 
     <div class="row">
         <div class="col-md-3">
             <br/>
-            <h4><a href="/docs/" >Document Top</a></h4>
-            <ul>
-                <li><a href="/docs/introduction" >Introduction</a></li>
+            <h4>Documents</h4>
+            <ul class="nav nav-pills nav-stacked">
+                <li><a href="/docs/" >Table of Contents</a></li>
+                <li><hr width="80%" style="margin: .1em"></li>
+                <li><a href="/docs/introduction" >Sample Code</a></li>
                 <li><a href="/docs/responders" >Responders</a></li>
-                <li><a href="/docs/template" >Template</a></li>
-                <li><a href="/docs/controller" >Controller</a></li>
+                <li><a href="/docs/template" >Renderer and Template</a></li>
+                <li><a href="/docs/controller" >Controller Helpers</a></li>
             </ul>
         </div>
         <div class="col-md-9">

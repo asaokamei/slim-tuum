@@ -43,8 +43,8 @@
                     <ul class="dropdown-menu">
                         <li><a href="/toHome">Redirect to named rout</a></li>
                         <li><a href="/back">Redirect back to referrer</a></li>
-                        <li><a href="/jump">Form and Redirect</a></li>
-                        <li><a href="/upload">Upload Files</a></li>
+                        <li><a href="/jump">Form and Validation Errors</a></li>
+                        <li><a href="/upload">File Upload</a></li>
                         <li><a href="/paginate?_page">Pagination</a></li>
                     </ul>
                 </li>
@@ -68,6 +68,14 @@
 </nav>
 
 {% block jumbotron %}{% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="/">HOME</a></li>
+        {% block breadlist %}
+        {% endblock %}
+    </ol>
+{% endblock %}
 
 <div class="content">
 

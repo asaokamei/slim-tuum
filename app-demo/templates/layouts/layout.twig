@@ -27,7 +27,7 @@
         </div>
         <div class="navbar-collapse collapse" id="navbar">
             <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
+                <li class="dropdown{% block menuDocument %}{% endblock %}">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Documents <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="/docs/" >Document Top</a></li>
@@ -38,7 +38,7 @@
                         <li><a href="/docs/controller" >Controller</a></li>
                     </ul>
                 </li>
-                <li class="dropdown">
+                <li class="dropdown{% block menuSample %}{% endblock %}">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Samples <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="/toHome">Redirect to named rout</a></li>
@@ -49,7 +49,7 @@
                     </ul>
                 </li>
 
-                <li class="dropdown">
+                <li class="dropdown{% block menuError %}{% endblock %}">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Errors <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="/not-such-file">Not Found Error</a></li>

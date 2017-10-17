@@ -1,5 +1,9 @@
 {% extends "layouts/layout.twig" %}
 
+{% block menuDocument %}
+    active
+{% endblock %}
+
 {% block breadlist %}
     {% if path == 'readme' %}
         <li><a href="/docs/">Documents</a></li>

@@ -33,6 +33,7 @@ class RespondMiddleware
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, $next)
     {
+        $this->responder->setResponse($response);
         if (!$this->validateCsRfToken($request)) {
             return $this->responder->error($request, $response)->forbidden();
         }

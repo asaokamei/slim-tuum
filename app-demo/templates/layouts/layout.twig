@@ -38,14 +38,19 @@
                         <li><a href="/docs/controller" >Controller</a></li>
                     </ul>
                 </li>
-                <li class="dropdown{% block menuSample %}{% endblock %}">
+                <li class="dropdown{% block menuSample %}{% endblock %}{{ view.attribute('menu-sample') }}">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Samples <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="/toHome">Redirect to named rout</a></li>
                         <li><a href="/back">Redirect back to referrer</a></li>
-                        <li><a href="/jump">Form and Validation Errors</a></li>
-                        <li><a href="/upload">File Upload</a></li>
-                        <li><a href="/paginate?_page">Pagination</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="{{ view.route('jump') }}">Form and Validation Errors</a></li>
+                        <li><a href="{{ view.route('upload') }}">File Upload</a></li>
+                        <li><a href="{{ view.route('paginate') }}?_page">Pagination</a></li>
+                        <li><a href="{{ view.route('forms') }}">Various Forms</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="{{ view.route('hello', {'name': 'from menu'}) }}">Hello page</a></li>
+                        <li><a href="{{ view.route('phpInfo') }}">php info</a></li>
                     </ul>
                 </li>
 

@@ -52,8 +52,8 @@ $app->group('/sample', function () {
         });
     })->setName('phpInfo');
     
-    $this->any('/{name}', function (ServerRequestInterface $request) {
-        $this->responder->view($request)->asContents("<h1>{$request->getAttribute('name')}</h1>");
+    $this->any('/{name}', function (ServerRequestInterface $request, $res, $args) {
+        $this->responder->view($request)->asContents("<h1>{$args['name']}</h1>");
     })->setName('hello');
 
 })->add(function (ServerRequestInterface $req, $res, $next) {
@@ -64,7 +64,8 @@ $app->group('/sample', function () {
         $route = $req->getAttribute('route');
         $args = $route->getArguments();
         if (isset($args['name'])) {
-            $req = $req->withAttribute('name', $args['name'] . ' :middleware');
+            $args['name'] .= ' :middleware';
+            $route->setArguments($args);
         }
         $req = $req->withAttribute('menu-sample', ' active');
         return $next($req, $res);

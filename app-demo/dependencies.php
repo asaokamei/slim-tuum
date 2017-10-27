@@ -58,7 +58,7 @@ $container['logger'] = function (ContainerInterface $c) {
             0,
             true,
             true,
-            Monolog\Logger::NOTICE
+            $settings['level']
         )
     );
     return $logger;

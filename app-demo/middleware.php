@@ -10,7 +10,7 @@ use Tuum\Builder\Builder;
 /** @var Builder $builder */
 
 if ($builder->isDebug()) {
-    $app->add(new \Franzl\Middleware\Whoops\Middleware);
+    $app->add(new \Franzl\Middleware\Whoops\Middleware());
     if (!$builder->isEnvProd()) {
         $app->add(PhpDebugBarMiddleware::class);
     }
@@ -25,7 +25,7 @@ $app->add(function(ServerRequestInterface $req, $res, $next) {
     try {
         /** @var Logger $log */
         $log = $this->logger;
-        $log->info("{$req->getMethod()} {$req->getUri()->getPath()}");
+        $log->info("{$req->getMethod()} {$req->getUri()}");
         return $next($req, $res);
 
     } catch (\Exception $e) {

@@ -36,6 +36,9 @@ $app->get('/throw', function () {
     throw new \BadMethodCallException('catch me if you can.');
 });
 
+/**
+ * group for sample pages
+ */
 $app->group('/sample', function () {
     
     $this->any('/jump', JumpController::class)->setName('jump');

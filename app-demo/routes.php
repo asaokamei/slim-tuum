@@ -81,4 +81,3 @@ $app->any('/login', LoginController::class);
  */
 $app->any('/docs/{contents}', DocumentMap::class);
 $app->any('/docs/', DocumentMap::class);
-$app->any('/docs', DocumentMap::class);

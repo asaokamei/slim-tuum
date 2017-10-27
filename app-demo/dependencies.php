@@ -8,6 +8,7 @@ use Demo\Controller\UploadController;
 use Demo\Controller\UploadViewer;
 use Demo\Handler\NamedRoutes;
 use Demo\Handler\RespondMiddleware;
+use PhpMiddleware\PhpDebugBar\PhpDebugBarMiddleware;
 use Psr\Container\ContainerInterface;
 use Slim\App;
 
@@ -102,4 +103,4 @@ $container[PaginationController::class] = function (ContainerInterface $containe
     );
 };
 
-$container['PhpDebugBarMiddleware'] = new \PhpMiddleware\PhpDebugBar\PhpDebugBarMiddlewareFactory();
+$container[PhpDebugBarMiddleware::class] = new \PhpMiddleware\PhpDebugBar\PhpDebugBarMiddlewareFactory();

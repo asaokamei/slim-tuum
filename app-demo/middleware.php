@@ -11,7 +11,7 @@ use Tuum\Builder\Builder;
 
 if ($builder->isDebug()) {
     $app->add(new \Franzl\Middleware\Whoops\Middleware());
-    if (!$builder->isEnvProd()) {
+    if ($builder->isEnv('local')) {
         $app->add(PhpDebugBarMiddleware::class);
     }
 }

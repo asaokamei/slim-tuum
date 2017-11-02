@@ -12,8 +12,8 @@ use Slim\Route;
 /** @var App $app */
 
 // Routes
-$app->get('/', function (ServerRequestInterface $request, $response, $args) {
-    return $this->responder->view($request, $response)->render('index', $args);
+$app->get('/', function (ServerRequestInterface $request) {
+    return $this->responder->view($request)->render('index');
 })->setName('home');
 
 $app->get('/toHome', function (ServerRequestInterface $request) {

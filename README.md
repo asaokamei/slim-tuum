@@ -16,7 +16,7 @@ PSR-1, PSR-2, PSR-4, and PSR-7.
 
 ### Installation
 
-not registered to packagist.org, yet. So...
+not registered to packagist.org. So...
 
 ```sh
 $ git clone https://github.com/asaokamei/slim-tuum
@@ -33,121 +33,153 @@ $ php -S localhost:8888
 
 and view the local site at `http://localhost:8888` using browser.
 
+### Demo Site
+
+This repository also contains more elaborate demo site, 
+which can be accessed by running the following command at 
+`public` directory. 
+
+```sh
+$ php -S localhost:8888 demo.php
+```
+
+
 Code Snippets
 -----
 
-Tuum/Respond simplifies the construction of a PSR-7 response object. 
+This section demonstrates some code used in demo site. 
 
-Let's take a close look at the PHP code for `http://localhost:8888/jump` as an example. 
+### Redirection and Route Name
 
-### router.php
+`/app-demo/routes.php` file defines routes for the `/toHome` URL; 
 
-In `/app/routes.php` file defines routes for the `/jump` URL, which performs the following.
-
-1. construct an HTML view response with default values, 
-2. constructs a redirect with input data, errors, and a message, then 
-3. constructs the HTML view response with the redirected information from #2. 
 
 ```php
-/**
- * 1 and 3. constructing a HTML view response. 
- */
-$app->get('/jump', function ($request, Response $response) {
-    return Respond::view($request, $response)
-        ->withReqAttribute('csrf_name', 'csrf_value')
-        ->asView('jump');
-});
+// home page
+$app->get('/', function (ServerRequestInterface $request) {
+    // 1. renders home page, index. 
+    return $this->responder->view($request)->render('index');
+})->setName('home'); // 2. set route name as "home"
 
-/**
- * 2. constructing a redirect response with various info. 
- */
-$app->post('/jump', function (Request $request, Response $response) {
-    return Respond::redirect($request, $response)
-        ->withMessage('redirected back!')
-        ->withInputData(['jumped' => 'redirected text'])
-        ->withInputErrors(['jumped' => 'redirected error message'])
-        ->toPath('jump');
-});
+// redirect to home page.
+$app->get('/toHome', function (ServerRequestInterface $request) {
+    // redirect to "home" page
+    return $this->responder->redirect($request)
+                           ->setSuccess('redirected to "HOME"')
+                           ->toRoute('home');
 ```
 
-### jump.twig and helpers
+1. renders home page at route: `/`.
+2. set route name as "home" to the route `/`.
+3. redirect to "home" url. 
 
-The view file, `app/twigs/jump.twig`, uses `viewData` helpers to manage redirected input values and errors. 
+
+### Validation Error
+
+`app-demo/Controller/JumpController.php` file defines routes for 
+validation error sample. 
+
+`onGet` method to set default values for each input fields, 
+then renders form using `showForm` method.
+
+```php
+    /**
+     * 1. show upload form.
+     *
+     * @return ResponseInterface
+     */
+    public function onGet()
+    {
+        $this->view()
+            ->setData([
+                // 2. set default values.
+            ]);
+        return $this->showForm();
+    }
+
+    /**
+     * @return mixed
+     */
+    private function showForm()
+    {
+        return $this->view()->render('jump');
+    }
+```
+
+`onPost` method is responsible to take care of the form input.
+The form is rendered with validation errors and messages as a 
+default behavior. But if, `_redirect` value is set, ... 
+
+```php
+    /**
+     * take care the uploaded file.
+     * show the upload form with uploaded file information.
+     *
+     * @return ResponseInterface
+     */
+    public function onPost()
+    {
+        // 3. set error and validation errors and message.s
+        $this->getViewData()
+            ->setInput($this->getPost())
+            ->setInputErrors([
+                'jumped' => 'redirected error message',
+                'date'   => 'your date',
+                'gender' => 'your gender',
+                'movie'  => 'selected movie',
+                'happy'  => 'be happy!'
+            ]);
+
+        // 4. redirect back to the form page
+        if ($this->getPost('_redirect')) {
+            return $this->redirect()
+                ->setError('redirected back!')
+                ->toPath('jump');
+        }
+        // 5. or show form page with validation errors. 
+        $this->view()                          
+            ->setError('redrawn form!');
+
+        return $this->showForm();
+    }
+```
+
+this code redirect back to the form url (i.e. `onGet` method). 
+
+The validation errors and messages are saved in session flash storage, 
+and restored automatically in the form page. 
+
+
+### Templates and Forms
+
+The validation errors, messages, and form input values are 
+restored in the form, with some magical code as shown in 
+the following twig code. 
 
 ```html
-{% extends "layouts/layout.twig" %}
-
-{% block content %}
-
-    <h1>Let's Jump!!</h1>
-
-    {{ viewData.message|raw }}
-
-    <p>This sample shows how to create a form input and shows the error message from the redirection.</p>
-
-    <h3>Sample Form</h3>
-
-    <form method="post" action="" class="">
-        <input type="hidden" name="_token" value="{{ _token }}">
-
-        <div class="form-group">
-            <label for="text2">extra text</label>
-            <input type="text" name="text2" id="text2" value="{{ viewData.inputs.get('jumped', 'original text') }}"
-                   class="form-control"/>
-            {{ viewData.errors.get('jumped')|raw }}
-        </div>
-
-        <input type="submit" value="jump!" class="btn btn-primary"/>&nbsp;
-        <input type="button" value="clear" onclick="location.href='jump'" class="btn btn-default"/>
-
-    </form>
-
-{% endblock %}
+{% set value = view.inputs.raw(name, view.data.raw(name)) %}
+{% set attribute = view.forms.newAttribute({
+    'class': 'form-control'
+}) %}
+{% if attr is defined %}
+    {% set attribute = attribute.fillAttributes(attr) %}
+{% endif %}
+<div class="form-group{{ view.errors.ifExists(name, null, ' has-error') }}">
+    <div class="col-sm-2">
+        <label for="{{ name }}">{{ title }}</label>
+    </div>
+    <div class="col-sm-10">
+        <input type="text" name="{{ name }}" id="{{ name }}" value="{{ value }}" {{ attribute|raw }}>
+        {% if view.errors.exists(name) %}
+            <p class="text-danger">{{ view.errors.raw(name)}}</p>
+        {% endif %}
+    </div>
+    <div class="clearfix"></div>
+</div>
 ```
 
-* `{{ viewData.message }}` for messages. 
-* `{{ viewData.inputs }}` for redirected input values. 
-* `{{ viewData.errors }}` for redirected input errors. 
-* There are `{{ viewData.forms }}` helper as well, which helps to generate html forms. The forms helper already contains the `inputs` helper to simplify the code even further. 
-
-To understand how these helpers work, please check out the repository at github, [https://github.com/TuumPHP/Form](https://github.com/TuumPHP/Form)
-
-Setup Slim 3
-----
-
-To use `Tuum/Respond` with Slim 3 framework, you must configure the $app. 
-
-### TuumStack Middleware
-
-TuumStack class is a middleware to setup respond module. The `app/app-twig.php` file constructs the middleware and adds it to the Slim3 application. 
-
-```php
-/**
- * Tuum/Respond extension
- */
-$app->add(
-    TuumStack::forgeTwig(
-        __DIR__ . '/twigs',  // location of twig templates
-        [
-            // configs for twigs here.
-        ],
-        'layouts/contents', // an empty template to render any html inside a layout. 
-        [
-            // error html setting. 
-            'default' => 'errors/error',
-            'status'  => [
-                '404' => 'errors/notFound',
-                '403' => 'errors/forbidden',
-            ],
-            'handler' => false,
-        ],
-        $_COOKIE
-        ));
-
-```
-
-
-#### twig and view
-
-The `Tuum/Respond` comes with its own view renderer, `Tuum/View`, which is a really simple PHP based template. The advantage of using the raw PHP template is, that you can use the debugger's breakpoint. 
+* `view`: contains all the values set by the responder. 
+* `view.inputs`: contains input data by `setInputs` method.  
+* `view.errors`: contains validation errors by `setInputErrors` method. 
+* `view.data`: contains data set by `setData` method.
 

@@ -1,9 +1,5 @@
 <?php
 
-use Demo\Controller\DocumentMap;
-use Demo\Controller\JumpController;
-use Demo\Controller\PaginationController;
-use Demo\Controller\UploadController;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\App;
 

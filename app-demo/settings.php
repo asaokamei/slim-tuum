@@ -2,6 +2,9 @@
 use Demo\Handler\FoundHandler;
 use Demo\Handler\NotFoundHandler;
 use Psr\Container\ContainerInterface;
+use Tuum\Builder\Builder;
+
+/** @var Builder $builder */
 
 return $builder->getAll() + [
     'debug' => $builder->isDebug(),

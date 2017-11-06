@@ -1,5 +1,4 @@
 <?php
-use Demo\Handler\RespondMiddleware;
 use Monolog\Logger;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\App;

@@ -1,11 +1,5 @@
 <?php
 
-use Demo\Controller\DocumentMap;
-use Demo\Controller\JumpController;
-use Demo\Controller\PaginationController;
-use Demo\Controller\UploadController;
-use Demo\Controller\UploadViewer;
-use Demo\Handler\RespondMiddleware;
 use Psr\Container\ContainerInterface;
 use Slim\App;
 use Tuum\Builder\Builder;

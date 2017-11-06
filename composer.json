@@ -12,7 +12,7 @@
     "require": {
         "slim/slim": "^3.0",
         "tuum/respond": "^3.0",
-        "tuum/builder":"^0.3.2"
+        "tuum/builder":"^1.0"
     },
     "require-dev": {
         "tuum/filemap": "^1.0",

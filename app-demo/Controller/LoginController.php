@@ -37,12 +37,12 @@ class LoginController implements ControllerInterface
         if (!$name) {
             return $this->redirect()
                         ->setError('please enter login name')
-                        ->toPath('/');
+                        ->toRoute('home');
         }
         $this->session()->set('login.name', $name);
         return $this->redirect()
                     ->setSuccess('logged in!')
-                    ->toPath('/');
+                    ->toRoute('home');
     }
 
     /**
@@ -53,11 +53,11 @@ class LoginController implements ControllerInterface
         if (!$this->session()->get('login.name')) {
             return $this->redirect()
                         ->setError('not logged in!')
-                        ->toPath('/');
+                        ->toRoute('home');
         }
         $this->session()->set('login.name', null);
         return $this->redirect()
                     ->setSuccess('logged out!')
-                    ->toPath('/');
+                    ->toRoute('home');
     }
 }

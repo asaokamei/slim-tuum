@@ -82,7 +82,7 @@ class JumpController implements ControllerInterface
         if ($this->getPost('_redirect')) {
             return $this->redirect()
                 ->setError('redirected back!') // set error message.
-                ->toPath('jump');
+                ->toReferrer();
         }
         $this->view()
             ->setError('redrawn form!');

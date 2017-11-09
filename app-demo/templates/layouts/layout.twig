@@ -23,26 +23,26 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Slim 3 + Tuum/Respond</a>
+            <a class="navbar-brand" href="{{ view.route('home') }}">Slim 3 + Tuum/Respond</a>
         </div>
         <div class="navbar-collapse collapse" id="navbar">
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown{% block menuDocument %}{% endblock %}">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Documents <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/docs/" >Document Top</a></li>
+                        <li><a href="{{ view.route('docs') }}" >Document Top</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="/docs/introduction" >Introduction</a></li>
-                        <li><a href="/docs/responders" >Responders</a></li>
-                        <li><a href="/docs/template" >Template</a></li>
-                        <li><a href="/docs/controller" >Controller</a></li>
+                        <li><a href="{{ view.route('docs') }}introduction" >Introduction</a></li>
+                        <li><a href="{{ view.route('docs') }}responders" >Responders</a></li>
+                        <li><a href="{{ view.route('docs') }}template" >Template</a></li>
+                        <li><a href="{{ view.route('docs') }}controller" >Controller</a></li>
                     </ul>
                 </li>
                 <li class="dropdown{% block menuSample %}{% endblock %}{{ view.attribute('menu-sample') }}">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Samples <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/toHome">Redirect to named rout</a></li>
-                        <li><a href="/back">Redirect back to referrer</a></li>
+                        <li><a href="{{ view.path('toHome') }}">Redirect to named rout</a></li>
+                        <li><a href="{{ view.path('back') }}">Redirect back to referrer</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="{{ view.route('jump') }}">Form and Validation Errors</a></li>
                         <li><a href="{{ view.route('upload') }}">File Upload</a></li>
@@ -57,10 +57,10 @@
                 <li class="dropdown{% block menuError %}{% endblock %}">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Errors <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/not-such-file">Not Found Error</a></li>
-                        <li><a href="/throw">Uncaught Exception</a></li>
+                        <li><a href="{{ view.path('not-such-file') }}">Not Found Error</a></li>
+                        <li><a href="{{ view.path('throw') }}">Uncaught Exception</a></li>
                         <li style="padding-left: 1em;">
-                            <form action="/upload" method="post">
+                            <form action="{{ view.path('upload') }}" method="post">
                                 <input type="submit" value="CsRf Forbidden" class="btn btn-xs btn-warning">
                             </form>
                         </li>
@@ -76,7 +76,7 @@
 
 {% block breadcrumb %}
     <ol class="breadcrumb">
-        <li><a href="/">HOME</a></li>
+        <li><a href="{{ view.route('home') }}">HOME</a></li>
         {% block breadlist %}
         {% endblock %}
     </ol>

@@ -8,9 +8,9 @@
     <div class="col-sm-6">
         <h3>Sample Pages</h3>
         <ul class="sample">
-            <li><a href="toHome">redirect using named route</a><br>
+            <li><a href="{{ view.path('toHome') }}">redirect using named route</a><br>
                 a simple redirect response using route name.</li>
-            <li><a href="back">redirect back to referrer</a><br>
+            <li><a href="{{ view.path('back') }}">redirect back to referrer</a><br>
                 a simple redirect response using referrer.</li>
             <li><a href="{{view.route('jump')}}">form and validation errors</a><br>
                 various ways to respond with form validation errors. </li>
@@ -30,7 +30,7 @@
     <div class="col-sm-6">
         <h3>Content and File-map</h3>
         <ul class="sample">
-            <li><a href="docs/">documents</a><br>
+            <li><a href="{{ view.route('docs') }}">documents</a><br>
                 using FileMap.</li>
             <li><a href="{{ view.route('hello', {'name': 'slim and tuum'}) }}">Hello Page</a><br>
                 sample for route parameter and middleware. </li>
@@ -41,10 +41,10 @@
     <div class="col-sm-6">
         <h3>Error Samples</h3>
         <ul class="sample">
-            <li><a href="not-such-file">not found</a></li>
-            <li><a href="throw">catch exception</a> </li>
+            <li><a href="{{ view.path('not-such-file') }}">not found</a></li>
+            <li><a href="{{ view.path('throw') }}">catch exception</a> </li>
             <li><strong>forbidden error</strong> (post without CSRF tokens)
-                <form action="jump" method="post">
+                <form action="{{ view.path('jump') }}" method="post">
                     <input type="submit" value="post w/o token!" class="btn btn-warning btn-xs" />
                 </form></li>
             <li><a href="{{ view.route('bad') }}">badly formed twig template</a></li>

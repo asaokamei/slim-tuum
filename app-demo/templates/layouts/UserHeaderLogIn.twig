@@ -1,5 +1,5 @@
 <!-- login form -->
-<form class="navbar-form navbar-left" role="search" action="/login" method="post">
+<form class="navbar-form navbar-left" role="search" action="{{ view.route('login') }}" method="post">
     <input type="hidden" name="_token" value="{{ view.attributes('_token') }}">
     <input type="hidden" name="_method" value="DELETE">
     <span class="text-info" ><strong>{{ login }}</strong></span>

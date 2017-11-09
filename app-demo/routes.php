@@ -77,10 +77,10 @@ $app->group('/sample', function () {
 /**
  * jump and jumper to see the redirection and parameter in flash
  */
-$app->any('/login', LoginController::class);
+$app->any('/login', LoginController::class)->setName('login');
 
 /**
  * document map
  */
 $app->any('/docs/{contents}', DocumentMap::class);
-$app->any('/docs/', DocumentMap::class);
+$app->any('/docs/', DocumentMap::class)->setName('docs');

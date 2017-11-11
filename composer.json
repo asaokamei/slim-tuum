@@ -12,12 +12,12 @@
     "require": {
         "slim/slim": "^3.0",
         "tuum/respond": "^3.0",
-        "tuum/builder":"^1.0"
+        "tuum/builder": "^1.0"
     },
     "require-dev": {
         "tuum/filemap": "^1.0",
-        "tuum/pagination":"^0.4",
-        "monolog/monolog": " ^1.0",
+        "tuum/pagination": "^1.0",
+        "monolog/monolog": "^1.0",
         "league/plates": "^3.3",
         "twig/twig": "^2.4",
         "franzl/whoops-middleware": "^0.5.0",

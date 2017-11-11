@@ -32,7 +32,10 @@
         }
     </style>
 
+    {{ input | raw }}
     <div class="col-md-9">
+
+        <div class="clearfix"></div>
 
         {% for key, item in found %}
 
@@ -43,8 +46,8 @@
 
         <p>&nbsp;</p>
 
-        {{ input.pagination | raw }}
-
     </div>
+    {{ pagination | raw }}
+
 
 {% endblock %}

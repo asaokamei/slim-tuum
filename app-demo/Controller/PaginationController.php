@@ -5,6 +5,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Tuum\Pagination\Inputs;
 use Tuum\Pagination\Pager;
+use Tuum\Pagination\ToHtml\ToBootstrap3;
 use Tuum\Respond\Responder;
 
 class PaginationController implements ControllerInterface
@@ -57,10 +58,15 @@ class PaginationController implements ControllerInterface
         $total = $input->get('total', 500);
         $input->setTotal($total);
 
+        // set up pagination
+        $paginate = $input->getPagination();
+        $paginate->numLinks = 7;
+
         return $this->responder->view($request, $response)
             ->render('pagination', [
                 'input' => $input,
                 'found' => $this->getFound($input),
+                'pagination' => new ToBootstrap3($paginate),
             ]);
     }
 

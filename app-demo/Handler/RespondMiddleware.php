@@ -37,24 +37,13 @@ class RespondMiddleware
         if (!$this->validateCsRfToken($request)) {
             return $this->responder->error($request, $response)->forbidden();
         }
-        $request = $this->handleCsRfToken($request);
         $request = $this->handleMethodToken($request);
         $response = $next($request, $response);
         $this->handleReferrer($request, $response);
         
         return $response;
     }
-
-    /**
-     * @param ServerRequestInterface $request
-     * @return ServerRequestInterface|static
-     */
-    private function handleCsRfToken(ServerRequestInterface $request)
-    {
-        $request = $request->withAttribute(self::CSRF_TOKEN, $this->responder->session()->getToken());
-        return $request;
-    }
-
+    
     /**
      * @param ServerRequestInterface $request
      * @return ServerRequestInterface|static

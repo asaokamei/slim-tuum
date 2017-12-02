@@ -19,7 +19,7 @@
 
     <form method="post" action="">
         
-        <input type="hidden" name="_token" value="{{ view.attributes('_token') }}">
+        <input type="hidden" name="_token" value="{{ view.csrfToken() }}">
 
         {% include '_form/text.twig' with {
             'name': 'jumped', 

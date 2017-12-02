@@ -26,12 +26,12 @@ $container['responder'] = function (ContainerInterface $container) {
     $settings = $container->get('settings')['renderer'];
     $responder = \Tuum\Respond\Responder::forge(
         \Tuum\Respond\Builder::forge('slim3-demo')
-            ->setRenderer(
-                Tuum\Respond\Service\Renderer\Twig::forge(
-                    $settings['template_path'], [
+            ->setRendererInfo(
+                'twig',
+                $settings['template_path'], [
                     'cache'       => $container->get('var-dir') . '/twigs',
                     'auto_reload' => true,
-                ])
+                ]
             )->setNamedRoutes(
                 new NamedRoutes($container['router'])
             )->setContainer($container)

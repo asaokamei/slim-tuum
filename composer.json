@@ -16,7 +16,7 @@
     },
     "require-dev": {
         "tuum/filemap": "^1.0",
-        "tuum/pagination": "^1.0",
+        "tuum/pagination": " ^1.0",
         "monolog/monolog": "^1.0",
         "league/plates": "^3.3",
         "twig/twig": "^2.4",
